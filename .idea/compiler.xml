@@ -7,7 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="nginx-a" />
         <module name="lesson-danmu-server" />
+        <module name="nginx-b" />
         <module name="lesson-common" />
         <module name="lesson-monitor-server" />
         <module name="lesson-user-background" />
