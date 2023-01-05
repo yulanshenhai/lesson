@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ngxin-b</artifactId>
+    <artifactId>nginx-b</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -29,11 +29,27 @@
         </dependencies>
     </dependencyManagement>
 
+    <!--依赖-->
     <dependencies>
+
+        <!--spring-boot-starter-web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!--spring-boot-starter-data-redis-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!--spring-session-data-redis-->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+
     </dependencies>
 
     <!--打包-->
