@@ -1,20 +1,12 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import {createRouter, createWebHashHistory} from 'vue-router'
+import Welcome from '@/views/welcome'
 
+// 所有组件的路由都在这个数组中配置
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+  {path: '/', name: 'Welcome', component: Welcome},
+  {path: '/banner', name: 'Banner', component: import('@/views/welcome/banner')},
+  {path: '/video-list', name: 'VideoList', component: import('@/views/welcome/video-list')},
+  {path: '/common-footer', name: 'CommonFooter', component: import('@/components/common-footer')}
 ]
 
 const router = createRouter({
