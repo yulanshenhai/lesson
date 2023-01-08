@@ -10,13 +10,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: orange;
+  color: #2c3e50;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-size: 16px;
+// 全局图片
+.image {
+  width: 100%; // 宽度
+  height: 100%; // 高度
 }
 
 </style>

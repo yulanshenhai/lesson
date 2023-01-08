@@ -5,6 +5,9 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/lesson-common/pom.xml" />
+        <option value="$PROJECT_DIR$/nginx-a/pom.xml" />
+        <option value="$PROJECT_DIR$/nginx-b/pom.xml" />
       </list>
     </option>
   </component>

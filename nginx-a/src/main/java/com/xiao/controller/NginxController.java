@@ -1,6 +1,5 @@
 package com.xiao.controller;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,10 +14,5 @@ public class NginxController {
     @GetMapping("hello")
     public String hello(){
         return "我是nginx-a项目";
-    }
-
-    @GetMapping("get-session")
-    public String getSession(HttpServletRequest req){
-        return "nginx-a项目的session-id是：" + req.getSession().getId();
     }
 }
