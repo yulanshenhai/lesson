@@ -57,9 +57,9 @@ public interface VideoOrderMapper {
     int deleteByOrderId(Integer orderId);
 
     /**
-     * 按主键查询VideoOrder表记录，分步查询Video表，Order表和User表
+     * 按中间表主键查询VideoOrder表记录，分步查询Video表，Order表和User表
      *
-     * @param id VideoOrder主键
+     * @param videoOrderId VideoOrder主键
      * @return 全部VideoOrder记录
      */
     @Results(id = "video_order_detail", value = {
@@ -75,7 +75,7 @@ public interface VideoOrderMapper {
             "<where>" +
             "<if test='_parameter != null'> vo.id = #{param1} </if> OR 1 = 2 </where>" +
             "</script>")
-    VideoOrder selectDetailById(Integer id);
+    VideoOrder selectDetailById(Integer videoOrderId);
 
     /**
      * 按User主键查询VideoOrder记录
@@ -119,6 +119,6 @@ public interface VideoOrderMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    List<Video> selectByUserIdAndVideoIds(Integer userId, Integer[] videoIds);
+    List<VideoOrder> selectByUserIdAndVideoIds(Integer userId, Integer[] videoIds);
 
 }

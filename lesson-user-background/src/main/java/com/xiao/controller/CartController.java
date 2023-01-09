@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+/**
+ * @author xiao
+ */
 @Tag(name = "CartController", description = "购物车模块接口")
 @Controller
 @RequestMapping("/api/v1/cart")
@@ -26,7 +29,7 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @Operation(summary = "添加一条购物车信息", description = "需要token验证")
+    @Operation(summary = "单增购物车记录", description = "需要token验证")
     @Token
     @PostMapping("/insert-or-update")
     @ResponseBody
@@ -38,7 +41,7 @@ public class CartController {
                 Result.fail(0, "添加购物车失败");
     }
 
-    @Operation(summary = "根据用户主键查询购物车记录", description = "需要token验证")
+    @Operation(summary = "按用户主键批查购物车记录", description = "需要token验证")
     @Token
     @GetMapping("/select-by-user-id")
     @ResponseBody
@@ -49,7 +52,7 @@ public class CartController {
                 Result.fail(0, "该用户暂无购物车记录");
     }
 
-    @Operation(summary = "根据用户主键和商品主键数组，批量删除该用户某些购物车信息", description = "需要token验证")
+    @Operation(summary = "按用户主键和商品主键数组批删购物车记录", description = "需要token验证")
     @Token
     @PostMapping("/delete-by-user-id-and-video-ids")
     @ResponseBody
@@ -61,7 +64,7 @@ public class CartController {
                 Result.fail(0, "field不存在或删除失败");
     }
 
-    @Operation(summary = "根据用户主键清空该用户全部购物车信息", description = "需要token验证")
+    @Operation(summary = "按用户主键清空购物车记录", description = "需要token验证")
     @Token
     @PostMapping("/delete-by-user-id")
     @ResponseBody

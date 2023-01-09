@@ -1,10 +1,9 @@
 package com.xiao.service;
 
-import com.xiao.entity.VideoOrder;
 import com.xiao.param.OrderDeleteParam;
 import com.xiao.param.OrderInsertParam;
-
-import java.util.List;
+import com.xiao.param.OrderPageParam;
+import com.xiao.vo.OrderPageVo;
 
 /**
  * @author xiao
@@ -29,17 +28,16 @@ public interface OrderService {
     int insert(OrderInsertParam orderInsertParam);
 
     /**
-     * <h2>查询个人订单</h2>
-     * <p> 01. 检查必填参数：若包含null值则直接抛出参数异常。
-     * <p> 02. 调用Mapper接口检查用户是否存在，若不存在抛出异常。
-     * <p> 03. 调用Mapper接口按用户主键查询该用户的全部完整VideoOrder记录。
-     * <p> 04. 查询成功：返回该用户的全部完整VideoOrder记录。
-     * <p> 05. 查询失败：直接返回null值。
+     * <h2>分页查询个人订单详情</h2>
+     * <p> 01. 调用Mapper接口检查用户是否存在，若不存在抛出异常。
+     * <p> 02. 调用Mapper接口按用户主键查询该用户的全部完整VideoOrder记录。
+     * <p> 03. 查询成功：返回该用户的全部完整VideoOrder记录。
+     * <p> 04. 查询失败：直接返回null值。
      *
-     * @param userId User表主键
-     * @return 指定用户的全部订单
+     * @param orderPageParam 分页查询个人订单详情的Param实体
+     * @return 指定用户的部分订单数据的VO实体
      */
-    List<VideoOrder> selectDetailByUserId(Integer userId);
+    OrderPageVo pageDetailByUserId(OrderPageParam orderPageParam);
 
     /**
      * <h2>删除个人订单</h2>

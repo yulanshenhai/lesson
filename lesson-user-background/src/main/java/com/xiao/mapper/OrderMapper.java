@@ -7,8 +7,12 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author xiao
+ */
 @Repository
 public interface OrderMapper {
+
     String SELECT_ALL = "SELECT o.id, o.number, o.state, o.total_fee, o.info, o.create_time, o.last_modify " +
             "FROM lesson.`order` o ";
 
@@ -24,9 +28,9 @@ public interface OrderMapper {
     int insert(Order order);
 
     /**
-     * 按主键单查Order记录
+     * 按订单主键单查Order记录
      *
-     * @param id Order表主键
+     * @param orderId Order表主键
      * @return 单条Order记录
      */
     @Select("<script>" + SELECT_ALL +
@@ -35,12 +39,12 @@ public interface OrderMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    Order selectById(Integer id);
+    Order selectById(Integer orderId);
 
     /**
-     * 按主键单删Order记录
+     * 按订单主键单删Order记录
      *
-     * @param id Order表主键
+     * @param orderId Order表主键
      * @return 影响条目数
      */
     @Delete("<script>" +
@@ -50,5 +54,6 @@ public interface OrderMapper {
             "OR 1 = 2 " +
             "</where>" +
             "</script>")
-    int deleteById(Integer id);
+    int deleteById(Integer orderId);
+
 }

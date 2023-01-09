@@ -4,10 +4,8 @@ import com.xiao.entity.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
- * @author JoeZhou
+ * @author xiao
  */
 @Repository
 public interface UserMapper {
@@ -58,9 +56,9 @@ public interface UserMapper {
     int updateById(User user);
 
     /**
-     * 按主键单删User记录
+     * 按用户主键单删User记录
      *
-     * @param id User表主键
+     * @param userId User表主键
      * @return 影响条目数
      */
     @Delete("<script>" +
@@ -70,12 +68,12 @@ public interface UserMapper {
             "OR 1 = 2 " +
             "</where>" +
             "</script>")
-    int deleteById(Integer id);
+    int deleteById(Integer userId);
 
     /**
-     * 按主键单查User记录
+     * 按用户主键单查User记录
      *
-     * @param id User表主键
+     * @param userId User表主键
      * @return 单条User记录
      */
     @Select("<script>" +
@@ -85,15 +83,7 @@ public interface UserMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    User selectById(Integer id);
-
-    /**
-     * 全查User记录
-     *
-     * @return 全部User记录
-     */
-    @Select(SELECT_ALL)
-    List<User> list();
+    User selectById(Integer userId);
 
     /**
      * 按账号密码单查User记录

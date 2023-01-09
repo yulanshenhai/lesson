@@ -8,6 +8,7 @@ import com.xiao.mapper.VideoOrderMapper;
 import com.xiao.param.*;
 import com.xiao.service.UserService;
 import com.xiao.util.*;
+import com.xiao.vo.UserLoginVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,11 +33,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private OrderMapper orderMapper;
-
-    /**
-     * 头像上传目标目录
-     */
-    private static final String AVATAR_DEST_DIR_PATH = "D:/idea/upload/";
 
     @Override
     public int register(UserRegisterParam userRegisterParam) {
@@ -68,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(UserLoginParam userLoginParam) {
+    public UserLoginVo login(UserLoginParam userLoginParam) {
 
         String username = userLoginParam.getUsername();
         String password = userLoginParam.getPassword();
@@ -82,12 +78,27 @@ public class UserServiceImpl implements UserService {
         password = EncryptionUtil.encryptPassword(password);
 
         // 按账号密码查询User记录
-        return encryptUser(userMapper.selectByUsernameAndPassword(username, password));
+        User user = encryptUser(userMapper.selectByUsernameAndPassword(username, password));
+
+        if (null == user) {
+            return null;
+        }
+
+        // 组装VO
+        UserLoginVo userLoginVo = new UserLoginVo();
+        userLoginVo.setUser(user);
+        userLoginVo.setToken(JwtUtil.build(
+                user.getId(),
+                user.getNickName(),
+                user.getAvatar()));
+
+        // 返回VO
+        return userLoginVo;
     }
 
     @Override
-    public User selectById(Integer id) {
-        return encryptUser(userMapper.selectById(id));
+    public User selectById(Integer userId) {
+        return encryptUser(userMapper.selectById(userId));
     }
 
     @Override
@@ -116,117 +127,40 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("必要参数为空");
         }
 
-        // 检查该用户是否存在，不存在则抛异常
-        User user = userMapper.selectById(id);
-        if (null == user) {
-            throw new RuntimeException("用户不存在");
-        }
-
-        // 检查该用户的原密码是否正确，密码需要加密后比对
-        oldPassword = EncryptionUtil.encryptPassword(oldPassword);
-        if (!oldPassword.equals(user.getPassword())) {
-            throw new RuntimeException("原密码有误");
-        }
-
-        // 修改该用户的密码为新密码，新密码需要加密和入库
-        newPassword = EncryptionUtil.encryptPassword(newPassword);
-        user.setPassword(newPassword);
-        return userMapper.updateById(user);
+        User user = this.selectUser(id);
+        this.checkOldPassword(oldPassword, user);
+        this.updateNewPassword(newPassword, user);
+        return 1;
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int deleteById(UserDeleteParam userDeleteParam) {
-
         Integer userId = userDeleteParam.getUserId();
         if (null == userId) {
             throw new RuntimeException("必要参数为空");
         }
-
-        // 检查该用户是否存在，不存在则抛异常
-        this.checkUserIsExists(userId);
-
-        // 查询该用户关联的全部VideoOrder表记录
-        List<VideoOrder> videoOrders = videoOrderMapper.selectByUserId(userId);
-        if (null != videoOrders && !videoOrders.isEmpty()) {
-
-            // 删除该用户关联的VideoOrder表记录，若不存在则略过
-            videoOrderMapper.deleteByUserId(userId);
-
-            // 删除该用户关联的Order表记录，若不存在则略过
-            for (VideoOrder videoOrder : videoOrders) {
-                orderMapper.deleteById(videoOrder.getOrderId());
-            }
-        }
-
-        // 删除该用户的User表记录
-        return userMapper.deleteById(userId);
+        this.checkUserExists(userId);
+        this.delUserOrder(userId);
+        this.delUser(userId);
+        return 1;
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int updateAvatarById(UserUpdateAvatarParam userUpdateAvatarDTO) {
-        Integer id = userUpdateAvatarDTO.getId();
-        MultipartFile avatarFile = userUpdateAvatarDTO.getAvatarFile();
+    public int updateAvatarById(UserUpdateAvatarParam userUpdateAvatarParam) {
+        Integer id = userUpdateAvatarParam.getId();
+        MultipartFile avatarFile = userUpdateAvatarParam.getAvatarFile();
         if (NullUtil.hasNull(id, avatarFile)) {
             throw new RuntimeException("必要参数为空");
         }
-        User user = this.checkUserIsExists(id);
+        User user = userMapper.selectById(id);
+        if (null == user) {
+            throw new RuntimeException("用户不存在");
+        }
         FileUtil.deleteAvatarFromOss(user.getAvatar());
         String avatar = FileUtil.uploadAvatarToOss(avatarFile);
         return this.updateUserAvatar(avatar, id);
-    }
-
-    @Override
-    public List<User> list() {
-        return userMapper.list();
-    }
-
-    /**
-     * 调用数据接口按主键查询用户记录，若用户不存在则抛异常
-     *
-     * @param id User表主键
-     * @return 若用户存在，则返回该用户完整的User表记录
-     */
-    private User checkUserIsExists(Integer id) {
-        User result = userMapper.selectById(id);
-        if (null == result) {
-            throw new RuntimeException("用户不存在");
-        }
-        return result;
-    }
-
-    /**
-     * 按主键修改User表的头像地址
-     *
-     * @param avatar 头像地址
-     * @param id     User表主键
-     * @return 影响条目数
-     */
-    private int updateUserAvatar(String avatar, Integer id) {
-        User user = new User();
-        user.setId(id);
-        user.setAvatar(avatar);
-        return userMapper.updateById(user);
-    }
-
-    /**
-     * 将User实体数据中的手机号码和身份证号码脱敏后返回
-     *
-     * @param user 包含手机号码和身份证号码的User实体
-     * @return 将User实体数据中的手机号码和身份证号码脱敏后的User实体
-     */
-    private User encryptUser(User user) {
-        if (null == user) {
-            return null;
-        }
-        String phone = user.getPhone();
-        String idCard = user.getIdCard();
-        if (!NullUtil.hasNull(phone, idCard)) {
-            user.setPhone(EncryptionUtil.encryptPhone(phone));
-            user.setIdCard(EncryptionUtil.encryptIdCard(idCard));
-        }
-        return user;
     }
 
     @Override
@@ -258,7 +192,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User loginByPhone(UserLoginByPhoneParam userLoginByPhoneParam) {
+    public UserLoginVo loginByPhone(UserLoginByPhoneParam userLoginByPhoneParam) {
         String phone = userLoginByPhoneParam.getPhone();
         String verificationCode = userLoginByPhoneParam.getVerificationCode();
 
@@ -282,10 +216,150 @@ public class UserServiceImpl implements UserService {
         // 关闭Jedis连接以节省资源
         JedisStandaloneUtil.closeJedis(jedis);
 
+        if (null == user) {
+            return null;
+        }
+        // 组装VO
+        UserLoginVo userLoginVo = new UserLoginVo();
+        userLoginVo.setUser(user);
+        userLoginVo.setToken(JwtUtil.build(
+                user.getId(),
+                user.getNickName(),
+                user.getAvatar()));
         // 登录成功返回对应的User信息
+        return userLoginVo;
+    }
+
+    @Override
+    public String selectPointsByUserId(Integer userId) {
+
+        // 获取一个单机的Jedis连接实例
+        Jedis jedis = JedisStandaloneUtil.getJedis();
+
+        // 获取用户积分，错误直接抛出异常
+        String points = jedis.get("points:user-" + userId);
+
+        // 关闭Jedis连接以节省资源
+        JedisStandaloneUtil.closeJedis(jedis);
+
+        // 返回用户积分
+        return points;
+    }
+
+    /**
+     * 调用数据接口按主键查询用户记录，若用户不存在则抛异常
+     *
+     * @param userId User表主键
+     */
+    private void checkUserExists(Integer userId) {
+        if (null == userMapper.selectById(userId)) {
+            throw new RuntimeException("用户不存在");
+        }
+    }
+
+    /**
+     * 按主键修改User表的头像地址
+     *
+     * @param avatar 头像地址
+     * @param userId User表主键
+     * @return 影响条目数
+     */
+    private int updateUserAvatar(String avatar, Integer userId) {
+        User user = new User();
+        user.setId(userId);
+        user.setAvatar(avatar);
+        return userMapper.updateById(user);
+    }
+
+    /**
+     * 将User实体数据中的手机号码和身份证号码脱敏后返回
+     *
+     * @param user 包含手机号码和身份证号码的User实体
+     * @return 将User实体数据中的手机号码和身份证号码脱敏后的User实体
+     */
+    private User encryptUser(User user) {
+        if (null == user) {
+            return null;
+        }
+        String phone = user.getPhone();
+        String idCard = user.getIdCard();
+        if (!NullUtil.hasNull(phone, idCard)) {
+            user.setPhone(EncryptionUtil.encryptPhone(phone));
+            user.setIdCard(EncryptionUtil.encryptIdCard(idCard));
+        }
         return user;
     }
 
+    /**
+     * 删除该用户的User表记录
+     *
+     * @param userId User主键
+     */
+    private void delUser(Integer userId) {
+        if (userMapper.deleteById(userId) <= 0) {
+            throw new RuntimeException("用户删除操作异常");
+        }
+    }
 
+    /**
+     * 删除该用户关联的全部VideoOrder表记录和Order表记录
+     *
+     * @param userId User主键
+     */
+    private void delUserOrder(Integer userId) {
 
+        // 查询该用户关联的全部VideoOrder表记录
+        List<VideoOrder> videoOrders = videoOrderMapper.selectByUserId(userId);
+        if (null != videoOrders && !videoOrders.isEmpty()) {
+
+            // 删除该用户关联的VideoOrder表记录，若不存在则略过
+            videoOrderMapper.deleteByUserId(userId);
+
+            // 删除该用户关联的Order表记录，若不存在则略过
+            for (VideoOrder videoOrder : videoOrders) {
+                orderMapper.deleteById(videoOrder.getOrderId());
+            }
+        }
+    }
+
+    /**
+     * 查询用户记录
+     *
+     * @param userId User主键
+     * @return 用户记录，若不存在则抛出异常
+     */
+    private User selectUser(Integer userId) {
+        User user = userMapper.selectById(userId);
+        if (null == user) {
+            throw new RuntimeException("用户不存在");
+        }
+        return user;
+    }
+
+    /**
+     * 修改该用户的密码为新密码，新密码需要加密和入库
+     *
+     * @param newPassword 新密码
+     * @param user        User实体
+     */
+    private void updateNewPassword(String newPassword, User user) {
+        newPassword = EncryptionUtil.encryptPassword(newPassword);
+        user.setPassword(newPassword);
+        if (userMapper.updateById(user) <= 0) {
+            throw new RuntimeException("修改密码异常");
+        }
+    }
+
+    /**
+     * 检查该用户的原密码是否正确，密码需要加密后比对
+     *
+     * @param oldPassword 用户输入的原密码
+     * @param user        用户实体
+     */
+    private void checkOldPassword(String oldPassword, User user) {
+        oldPassword = EncryptionUtil.encryptPassword(oldPassword);
+        if (!oldPassword.equals(user.getPassword())) {
+            throw new RuntimeException("原密码有误");
+        }
+    }
 }

@@ -1,25 +1,26 @@
 package com.xiao.mapper;
 
 import com.xiao.entity.Chapter;
-import org.apache.ibatis.annotations.Many;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author xiao
+ */
 @Repository
 public interface ChapterMapper {
+
     String SELECT_ALL = "SELECT c.id, c.title, c.index_in_video, c.video_id, c.info, c.create_time, c.last_modify " +
             "FROM lesson.chapter c ";
 
     /**
-     * 通过video表主键查询全部Chapter记录：分步查询每个Chapter下的所有Episode记录
+     * 按video主键查询全部Chapter记录，分步查询每个Chapter下的所有Episode记录，按index_in_video升序
      *
-     * @param videoId video表主键
-     * @return 该video下的所有章记录
+     * @param videoId Video主键
+     * @return 全部Chapter记录，包括每个Chapter下的所有Episode记录
      */
     @Select("<script>" + SELECT_ALL +
             "<where>" +
@@ -34,4 +35,19 @@ public interface ChapterMapper {
             )
     })
     List<Chapter> selectDetailByVideoId(Integer videoId);
+
+    /**
+     * 按video主键查询第一条Chapter记录
+     *
+     * @param videoId Video主键
+     * @return 第一条Chapter记录
+     */
+    @Select("<script>" + SELECT_ALL +
+            "<where>" +
+            "<if test='_parameter != null'> video_id = #{param1} and index_in_video = 1 </if>" +
+            "or 1 = 2" +
+            "</where>" +
+            "</script>")
+    Chapter selectFirstByVideoId(Integer videoId);
+
 }
