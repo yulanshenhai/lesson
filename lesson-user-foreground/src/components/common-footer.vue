@@ -6,32 +6,32 @@
     <!--
       stretch: 标签的宽度是否自撑开
       tab-position="bottom": 选项卡所在位置，居于底部
-      v-model="activeName"：绑activeName变量，动态决定哪个选项卡为当前首选项
-      @tab-click="handleClick"：点击触发handleClick方法。
+      v-model="currentRouterPath"：双绑currentRouterPath变量，动态决定哪个选项卡为当前首选项
+      @tab-click="changeTab"：点击触发changeTab方法
     -->
     <el-tabs stretch tab-position="bottom" class="demo-tabs"
              v-model="currentRouterPath"
-             @tab-click="handleClick">
+             @tab-click="changeTab">
 
       <!--选项卡item项-->
       <!--
-        :name="tab['name']"：设置不同的跳转路径
         v-for="tab in tabs"：遍历tabs数组
-        :name="tab['name']"：与选项卡绑定值 value 对应的标识符，表示选项卡别名
+        :name="tab['name']"：选项卡名称，建议绑定一个路由的Path值，JS中通过tab.props.name获取该值
       -->
 
       <el-tab-pane v-for="tab in tabs" :name="tab['path']">
 
+        <!--选项卡插槽: 自定义选项卡展示的图标和文字-->
         <template #label>
 
           <div class="custom-tabs-label">
 
             <!--选项卡中的图标：使用动态组件来展示图标-->
             <!--:is="tab['icon']"：属性 `:is` 的值是哪个组件的名称，就显示哪个组件-->
-            <component :is="tab['icon']" class="icon"/>
+            <component :is="tab['icon']" class="tab-icon"/>
 
             <!--选项卡中的文字-->
-            <span class="label">{{ tab['label'] }}</span>
+            <span class="tab-label">{{ tab['label'] }}</span>
 
           </div>
 
@@ -60,9 +60,8 @@ const tabs = [
   {path: '/personal', label: '我的', icon: User}
 ];
 
-
 // method: 点击选项卡时触发，tab参数表示点击的选项卡实例
-let handleClick = currentTab => {
+let changeTab = currentTab => {
 
   let currentTabPath = currentTab.props.name;
 
@@ -94,18 +93,18 @@ let handleClick = currentTab => {
     margin-top: -5px; // 上外边距
 
     /*选项卡图标*/
-    .icon {
+    .tab-icon {
       width: 1.2em; // 宽度
       height: 1.1em; // 高度
       margin-right: 8px; // 右外边距
     }
 
     /*选项卡文字*/
-    .label {
+    .tab-label {
       font-size: 1.4em; // 字号
       font-weight: bold; // 加粗
       font-family: 楷体, serif; // 字体
-      color: dodgerblue; // 前景色
+      color: deepskyblue; // 前景色
     }
 
   }
