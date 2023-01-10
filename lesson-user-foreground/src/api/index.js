@@ -61,7 +61,7 @@ export const BANNER_LIST_API = () => baseAxios.get(
 
 /*视频：按视频主键单查视频记录（包括章节记录）*/
 export const VIDEO_SELECT_DETAIL_BY_VIDEO_ID = (videoId) => baseAxios.get(
-    "/video/select-detail-by-video-id",
+    "/video/select-detail-by-id",
     {params: {'video-id': videoId}});
 
 /*视频：按视频标题搜索视频*/

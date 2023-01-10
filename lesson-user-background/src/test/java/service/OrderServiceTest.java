@@ -25,19 +25,15 @@ public class OrderServiceTest {
     @Test
     public void testInsert() {
         OrderInsertParam orderInsertParam = new OrderInsertParam();
-        orderInsertParam.setVideoIds(new Integer[]{2, 3});
-        orderInsertParam.setUserId(1);
+        orderInsertParam.setVideoIds(new Integer[]{1,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31});
+        orderInsertParam.setUserId(10);
         orderInsertParam.setTotalFee(6500.00);
         System.out.println(orderService.insert(orderInsertParam) > 0 ? "成功" : "失败");
     }
 
     @Test
     public void testPageDetailByUserId() {
-        OrderPageParam orderPageParam = new OrderPageParam();
-        orderPageParam.setUserId(1);
-        orderPageParam.setPage(1);
-        orderPageParam.setSize(5);
-        OrderPageVo orderPageVo = orderService.pageDetailByUserId(orderPageParam);
+        OrderPageVo orderPageVo = orderService.pageDetailByUserId(10,1,5);
         if (orderPageVo.getTotal() <= 0) {
             System.out.println("该用户暂无订单记录");
         } else {
@@ -56,7 +52,7 @@ public class OrderServiceTest {
     @Test
     public void testDeleteById() {
         OrderDeleteParam orderDeleteParam = new OrderDeleteParam();
-        orderDeleteParam.setOrderId(2);
+        orderDeleteParam.setOrderId(3);
         System.out.println(orderService.deleteById(orderDeleteParam) > 0 ? "成功" : "失败");
     }
 }

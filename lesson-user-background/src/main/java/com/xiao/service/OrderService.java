@@ -34,10 +34,12 @@ public interface OrderService {
      * <p> 03. 查询成功：返回该用户的全部完整VideoOrder记录。
      * <p> 04. 查询失败：直接返回null值。
      *
-     * @param orderPageParam 分页查询个人订单详情的Param实体
+     * @param userId User主键
+     * @param page   当前显示第几页
+     * @param size   每页显示多少条
      * @return 指定用户的部分订单数据的VO实体
      */
-    OrderPageVo pageDetailByUserId(OrderPageParam orderPageParam);
+    OrderPageVo pageDetailByUserId(Integer userId, Integer page, Integer size);
 
     /**
      * <h2>删除个人订单</h2>

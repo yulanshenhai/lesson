@@ -73,7 +73,7 @@
 
     <!--运行时日志记录器：仅对指定包中的运行时日志进行记录-->
     <!--最低级别为info，不区分大小写-->
-    <logger name="com.cindy" level="info">
+    <logger name="com.xiao" level="info">
         <appender-ref ref="FILEOUT"/>
     </logger>
 

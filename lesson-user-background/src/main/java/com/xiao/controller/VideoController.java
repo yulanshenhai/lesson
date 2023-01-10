@@ -1,5 +1,6 @@
 package com.xiao.controller;
 
+import com.xiao.entity.Episode;
 import com.xiao.entity.Video;
 import com.xiao.param.VideoSearchParam;
 import com.xiao.service.VideoService;
@@ -49,5 +50,15 @@ public class VideoController {
         return null != result ?
                 Result.ok(result) :
                 Result.fail(0, "无符合要求的视频");
+    }
+
+    @Operation(summary = "按视频主键查询该视频下的第一集", description = "无需token验证")
+    @GetMapping("/select-first-episode-by-id")
+    @ResponseBody
+    public Result selectFirstEpisodeById(@Validated @RequestParam Integer id) {
+        Episode episode = videoService.selectFirstByVideoId(id);
+        return null != episode ?
+                Result.ok(episode) :
+                Result.fail(0, "该视频暂无章集信息，请联系运维人员");
     }
 }

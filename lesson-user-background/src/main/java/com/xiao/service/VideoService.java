@@ -1,5 +1,6 @@
 package com.xiao.service;
 
+import com.xiao.entity.Episode;
 import com.xiao.entity.Video;
 import com.xiao.param.VideoSearchParam;
 import com.xiao.vo.VideoSearchVo;
@@ -26,4 +27,12 @@ public interface VideoService {
      * @return 搜索视频的VO实体
      */
     VideoSearchVo searchByTitle(VideoSearchParam videoSearchParam);
+
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    Episode selectFirstByVideoId(Integer id);
 }

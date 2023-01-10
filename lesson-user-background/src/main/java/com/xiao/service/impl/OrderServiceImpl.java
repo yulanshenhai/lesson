@@ -70,18 +70,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderPageVo pageDetailByUserId(OrderPageParam orderPageParam){
-
-        // 检查必填参数：若包含null值则直接抛出参数异常
-        Integer userId = orderPageParam.getUserId();
-        Integer page = orderPageParam.getPage();
-        Integer size = orderPageParam.getSize();
-        if (NullUtil.hasNull(userId, page, size)) {
-            throw new RuntimeException("必要参数为空");
-        }
+    public OrderPageVo pageDetailByUserId(Integer userId, Integer page, Integer size){
 
         this.checkUserExists(userId);
-
         // 分页查询VideoOrder记录
         PageHelper.startPage(page, size);
         PageInfo<VideoOrder> videoPageInfo = new PageInfo<>(videoOrderMapper.selectDetailByUserId(userId));

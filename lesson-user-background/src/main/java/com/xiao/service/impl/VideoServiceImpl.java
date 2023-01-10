@@ -1,7 +1,11 @@
 package com.xiao.service.impl;
 
 import com.xiao.document.VideoDoc;
+import com.xiao.entity.Chapter;
+import com.xiao.entity.Episode;
 import com.xiao.entity.Video;
+import com.xiao.mapper.ChapterMapper;
+import com.xiao.mapper.EpisodeMapper;
 import com.xiao.mapper.VideoMapper;
 import com.xiao.param.VideoSearchParam;
 import com.xiao.service.VideoService;
@@ -37,6 +41,12 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
+
+    @Autowired
+    private ChapterMapper chapterMapper;
+
+    @Autowired
+    private EpisodeMapper episodeMapper;
 
     @Override
     public Video selectDetailById(Integer videoId) {
@@ -119,5 +129,16 @@ public class VideoServiceImpl implements VideoService {
         QueryBuilder queryBuilder = QueryBuilders.matchQuery("title", title);
         Query query = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
         return elasticsearchRestTemplate.count(query, VideoDoc.class);
+    }
+
+
+    @Override
+    public Episode selectFirstByVideoId(Integer videoId) {
+        Chapter firstChapter = chapterMapper.selectFirstByVideoId(videoId);
+        if (null != firstChapter) {
+            Integer firstChapterId = firstChapter.getId();
+            return episodeMapper.selectFirstByChapterId(firstChapterId);
+        }
+        return null;
     }
 }

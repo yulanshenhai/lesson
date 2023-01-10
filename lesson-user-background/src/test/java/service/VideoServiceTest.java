@@ -39,4 +39,11 @@ public class VideoServiceTest {
         System.out.println(videoService.searchByTitle(videoSearchParam));
     }
 
+    @Test
+    public void testSelectFirstByVideoId() {
+        System.out.println("1号视频的第一集: " + videoService.selectFirstByVideoId(1));
+        System.out.println("2号视频的第一集: " + videoService.selectFirstByVideoId(2));
+        System.out.println("3号视频的第一集: " + videoService.selectFirstByVideoId(3));
+    }
+
 }

@@ -45,4 +45,17 @@ public interface EpisodeMapper {
             "</script>")
     Episode selectFirstByVideoId(Integer videoId);
 
+
+    /**
+     * 按Chapter主键查询第一条Episode记录
+     *
+     * @param chapterId Chapter主键
+     * @return 第一条Episode记录
+     */
+    @Select("<script>" + SELECT_ALL +
+            "<where>" +
+            "<if test='_parameter != null'> and e.chapter_id = #{param1} and index_in_chapter = 1 </if> or 1 = 2" +
+            "</where>" +
+            "</script>")
+    Episode selectFirstByChapterId(Integer chapterId);
 }

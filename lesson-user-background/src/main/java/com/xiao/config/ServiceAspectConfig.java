@@ -3,6 +3,7 @@ package com.xiao.config;
 import com.xiao.entity.User;
 import com.xiao.util.NullUtil;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,8 +14,10 @@ import java.util.List;
 /**
  * @author xiao
  */
-@Aspect //以声明为切面类
-@Configuration   //以声明为配置类
+@Slf4j
+@Aspect
+@Configuration
+@SuppressWarnings("all")
 public class ServiceAspectConfig {
 
     /**
@@ -47,13 +50,13 @@ public class ServiceAspectConfig {
         if (returnValue instanceof List
                 && ((List) returnValue).size() > 0
                 && ((List) returnValue).get(0) instanceof User) {
-            List<User> users = (List<User>) returnValue;  //隐藏密码
+            List<User> users = (List<User>) returnValue;
             users.forEach(user -> user.setPassword(""));
             return users;
         }
 
         // 后置通知：记录日志
-        System.out.println("方法 {} 调用成功..");
+        log.info("方法 {} 调用成功..", pjp.getSignature());
         return returnValue;
     }
 }

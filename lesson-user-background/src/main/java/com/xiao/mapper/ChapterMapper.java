@@ -49,5 +49,4 @@ public interface ChapterMapper {
             "</where>" +
             "</script>")
     Chapter selectFirstByVideoId(Integer videoId);
-
 }
