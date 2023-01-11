@@ -83,7 +83,7 @@ public interface UserMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    User selectById(Integer userId);
+    User selectByUserId(Integer userId);
 
     /**
      * 按账号密码单查User记录

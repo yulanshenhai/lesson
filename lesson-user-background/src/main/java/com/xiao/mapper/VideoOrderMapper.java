@@ -4,6 +4,7 @@ import com.xiao.entity.Order;
 import com.xiao.entity.User;
 import com.xiao.entity.Video;
 import com.xiao.entity.VideoOrder;
+import com.xiao.param.VideoOrderDeleteParam;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
@@ -121,4 +122,28 @@ public interface VideoOrderMapper {
             "</script>")
     List<VideoOrder> selectByUserIdAndVideoIds(Integer userId, Integer[] videoIds);
 
+    /**
+     * 按Order主键查询VideoOrder记录
+     *
+     * @param orderId Order主键
+     * @return 全部VideoOrder记录
+     */
+    @Select("<script> " + SELECT_ALL +
+            "<where>" +
+            "<if test='_parameter != null'> vo.order_id = #{param1} </if> OR 1 = 2 </where>" +
+            "</script>")
+    List<VideoOrder> selectByOrderId(Integer orderId);
+
+    /**
+     * 按VideoOrder主键单删VideoOrder记录
+     *
+     * @param videoOrderId Order主键
+     * @return 影响条目数
+     */
+    @Delete("<script>" +
+            "DELETE FROM lesson.video_order " +
+            "<where>" +
+            "<if test='_parameter != null'> id = #{param1} </if> OR 1 = 2 </where>" +
+            "</script>")
+    int deleteByVideoOrderId(Integer videoOrderId);
 }

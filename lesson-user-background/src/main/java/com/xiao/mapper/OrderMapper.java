@@ -54,6 +54,6 @@ public interface OrderMapper {
             "OR 1 = 2 " +
             "</where>" +
             "</script>")
-    int deleteById(Integer orderId);
+    int deleteByOrderId(Integer orderId);
 
 }

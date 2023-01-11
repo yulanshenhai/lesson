@@ -59,7 +59,7 @@ public class UserMapperTest {
 
     @Test
     public void testSelectById() {
-        System.out.println(userMapper.selectById(2));
+        System.out.println(userMapper.selectByUserId(2));
     }
 
     @Test

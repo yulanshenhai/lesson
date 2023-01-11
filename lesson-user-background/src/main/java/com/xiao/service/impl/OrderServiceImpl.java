@@ -105,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
      * @param userId User主键
      */
     private void checkUserExists(Integer userId) {
-        if (null == userMapper.selectById(userId)) {
+        if (null == userMapper.selectByUserId(userId)) {
             throw new RuntimeException("用户不存在");
         }
     }
@@ -208,7 +208,7 @@ public class OrderServiceImpl implements OrderService {
      * @param orderId Order表主键
      */
     private void deleteOrder(Integer orderId) {
-        if (orderMapper.deleteById(orderId) <= 0) {
+        if (orderMapper.deleteByOrderId(orderId) <= 0) {
             throw new RuntimeException("Order删除失败");
         }
     }

@@ -40,6 +40,6 @@ public class OrderMapperTest {
 
     @Test
     public void testDeleteById() {
-        System.out.println(orderMapper.deleteById(1) > 0 ? "成功" : "失败");
+        System.out.println(orderMapper.deleteByOrderId(1) > 0 ? "成功" : "失败");
     }
 }
