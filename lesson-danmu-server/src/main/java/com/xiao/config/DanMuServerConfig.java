@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 
+/**
+ * @author xiao
+ */
 @Configuration
 public class DanMuServerConfig {
 

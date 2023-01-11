@@ -4,6 +4,9 @@ import com.xiao.entity.Banner;
 
 import java.util.List;
 
+/**
+ * @author xiao
+ */
 public interface BannerService {
 
     /**

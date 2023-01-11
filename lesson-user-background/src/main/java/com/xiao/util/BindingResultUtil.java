@@ -3,6 +3,9 @@ package com.xiao.util;
 import org.springframework.validation.BindingResult;
 
 
+/**
+ * @author xiao
+ */
 public class BindingResultUtil {
     public static void check(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
