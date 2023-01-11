@@ -35,7 +35,7 @@ public class OrderMapperTest {
 
     @Test
     public void testSelectById() {
-        System.out.println("videoOrder: " + orderMapper.selectById(1));
+        System.out.println("videoOrder: " + orderMapper.selectByOrderId(1));
     }
 
     @Test

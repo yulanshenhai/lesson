@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int deleteById(OrderDeleteParam orderDeleteParam) {
+    public int deleteByOrderId(OrderDeleteParam orderDeleteParam) {
         int orderId = orderDeleteParam.getOrderId();
         this.checkOrderExists(orderId);
         this.deleteVideoOrder(orderId);
@@ -116,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
      * @param videoIds 视频主键数组
      */
     private void checkVideoExists(Integer[] videoIds) {
-        if (videoMapper.selectByIds(videoIds).size() < videoIds.length) {
+        if (videoMapper.selectByVideoIds(videoIds).size() < videoIds.length) {
             throw new RuntimeException("至少有一个视频不存在");
         }
     }
@@ -197,7 +197,7 @@ public class OrderServiceImpl implements OrderService {
      * @param orderId Order表主键
      */
     private void checkOrderExists(Integer orderId) {
-        if (null == orderMapper.selectById(orderId)) {
+        if (null == orderMapper.selectByOrderId(orderId)) {
             throw new RuntimeException("订单不存在");
         }
     }

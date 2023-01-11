@@ -52,5 +52,5 @@ public interface OrderService {
      * @param orderDeleteParam 删除订单的Param实体
      * @return 影响条目数
      */
-    int deleteById(OrderDeleteParam orderDeleteParam);
+    int deleteByOrderId(OrderDeleteParam orderDeleteParam);
 }

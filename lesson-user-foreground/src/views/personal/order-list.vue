@@ -48,6 +48,14 @@
             -->
             <el-link type="warning" class="play-btn" @click="playVideo(videoOrder['video']['id'])">播放视频</el-link>
 
+            <!--从订单中删除视频-->
+            <!--
+              @click="deleteOrder(videoOrder['order']['id'])": 当点击时触发deleteVideoOrder方法
+            -->
+            <el-link type="danger" class="remove-btn"
+                     @click="deleteVideoOrder(videoOrder['order']['id'], videoOrder['id'])">[删除视频]
+            </el-link>
+
             <!--删除订单-->
             <!--
               @click="deleteOrder(videoOrder['order']['id'])": 当点击时触发deleteOrder方法
@@ -137,7 +145,11 @@
 <script setup>
 
 import CommonHeader from "@/components/common-header";
-import {ORDER_DELETE_BY_ORDER_API, ORDER_PAGE_DETAIL_BY_USER_ID_API} from "@/api";
+import {
+  ORDER_DELETE_BY_ORDER_API,
+  ORDER_PAGE_DETAIL_BY_USER_ID_API,
+  VIDEO_ORDER_DELETE_BY_VIDEO_ORDER_API
+} from "@/api";
 import {nginxVideoCover} from '@/global_variable';
 import router from "@/router";
 import {onMounted, ref, computed, shallowReactive} from "vue";
@@ -167,9 +179,9 @@ let orderPageInfo = shallowReactive({
 const nginxSrc = computed(() => src => nginxVideoCover + src);
 
 // method: 获取订单列表
-let pageDetailByUserId = async (userId,page,size) => {
+let pageDetailByUserId = async (userId, page, size) => {
   try {
-    const resp = await ORDER_PAGE_DETAIL_BY_USER_ID_API(userId,page,size);
+    const resp = await ORDER_PAGE_DETAIL_BY_USER_ID_API(userId, page, size);
     if (resp['data']['code'] > 0) {
       let data = resp['data']['data'];
       videoOrders.value = data['video-orders'];
@@ -179,6 +191,34 @@ let pageDetailByUserId = async (userId,page,size) => {
     } else {
       console.error(resp['data']['message']);
     }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// method: 删除订单中的某个视频
+let deleteVideoOrder = async (orderId, videoOrderId) => {
+
+  try {
+
+    // 危险操作保护
+    if (!confirm("您将要删除这个视频，确定吗？")) return false;
+
+    // 准备请求参数
+    let params = {
+      "video-order-id": videoOrderId,
+      "order-id": orderId
+    };
+
+    // 异步调用接口：按 `订单ID` 和 `视频订单中间表ID` 删除 `视频订单中间表` 记录
+    const resp = await VIDEO_ORDER_DELETE_BY_VIDEO_ORDER_API(params);
+    if (resp['data']['code'] > 0) {
+      ElMessage('订单删除成功');
+
+      // 当删除成功后，重新调用分页查询方法
+      await pageDetailByUserId(userId, orderPageInfo['page-num'], orderPageInfo['page-size']);
+
+    } else console.error(resp['data']['message']);
   } catch (e) {
     console.error(e);
   }
@@ -216,13 +256,13 @@ let playVideo = videoId => {
 // method: 当前显示第几页被改变时触发
 let changePage = page => {
   orderPageInfo['page-num'] = page;
-  pageDetailByUserId(userId,page,orderPageInfo['page-size']);
+  pageDetailByUserId(userId, page, orderPageInfo['page-size']);
 };
 
 // method: 每页显示多少条被改变时触发：
 let changeSize = size => {
   orderPageInfo['page-size'] = size;
-  pageDetailByUserId(userId,orderPageInfo['page-num'],size);
+  pageDetailByUserId(userId, orderPageInfo['page-num'], size);
 };
 
 // mounted: 页面加载完毕后，判断用户是否登录，若登录，则立刻调用 `pageDetailByUserId()` 方法
@@ -239,7 +279,7 @@ onMounted(() => {
     return;
   }
 
-  pageDetailByUserId(userId,1,6);
+  pageDetailByUserId(userId, 1, 6);
 
 });
 

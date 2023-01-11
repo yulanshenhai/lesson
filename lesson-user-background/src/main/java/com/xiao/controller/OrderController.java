@@ -60,8 +60,8 @@ public class OrderController {
     @Operation(summary = "按主键单删订单记录", description = "需要token验证")
     @Token
     @PostMapping("/delete-by-id")
-    public Result deleteById(@RequestBody OrderDeleteParam orderDeleteParam) {
-        return orderService.deleteById(orderDeleteParam) > 0 ?
+    public Result deleteByOrderId(@RequestBody OrderDeleteParam orderDeleteParam) {
+        return orderService.deleteByOrderId(orderDeleteParam) > 0 ?
                 Result.ok() :
                 Result.fail(0, "删除失败");
     }

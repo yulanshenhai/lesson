@@ -2,7 +2,6 @@ package com.xiao.service;
 
 import com.xiao.param.VideoOrderDeleteParam;
 import com.xiao.vo.OrderPageVo;
-import org.apache.ibatis.annotations.Delete;
 
 /**
  * @author xiao

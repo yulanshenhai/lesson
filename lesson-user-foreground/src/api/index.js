@@ -69,6 +69,15 @@ export const VIDEO_SEARCH_BY_TITLE_API = (title, page, size) => baseAxios.get(
     "/video/search-by-title",
     {params: {title, page, size}});
 
+/*视频订单中间表：按用户主键批查视频订单中间表记录*/
+export const VIDEO_ORDER_PAGE_DETAIL_BY_USER_ID_API = (userId, page, size) => baseAxios.get(
+    "/video-order/page-detail-by-user-id",
+    {params: {'user-id': userId, page, size}});
+
+/*视频订单中间表：按视频订单中间表主键单删视频订单中间表记录*/
+export const VIDEO_ORDER_DELETE_BY_VIDEO_ORDER_API = (params) => baseAxios.post(
+    "/video-order/delete-by-video-order-id", params);
+
 /*用户：单增用户记录*/
 export const USER_REGISTER_API = (params) => baseAxios.post(
     "/user/register", params);

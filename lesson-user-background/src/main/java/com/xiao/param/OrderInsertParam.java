@@ -9,6 +9,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+/**
+ * @author xiao
+ */
 @Schema(name = "OrderInsertParam", description = "用于用户下单购买视频的Param实体参数")
 @Data
 public class OrderInsertParam implements Serializable {

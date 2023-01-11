@@ -40,7 +40,7 @@ public interface VideoMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    Video selectById(Integer videoId);
+    Video selectByVideoId(Integer videoId);
 
     /**
      * 按视频主键数组批查Video记录
@@ -56,7 +56,7 @@ public interface VideoMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    List<Video> selectByIds(Integer[] videoIds);
+    List<Video> selectByVideoIds(Integer[] videoIds);
 
     /**
      * 按视频主键单查Video完整记录：分步查询视频中章的信息和每一张下集的信息
@@ -76,5 +76,5 @@ public interface VideoMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    Video selectDetailById(Integer videoId);
+    Video selectDetailByVideoId(Integer videoId);
 }

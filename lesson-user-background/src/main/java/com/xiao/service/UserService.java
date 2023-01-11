@@ -69,7 +69,7 @@ public interface UserService {
      * @param userUpdateParam 用户修改业务实体参数
      * @return 影响条目数
      */
-    int updateById(UserUpdateParam userUpdateParam);
+    int updateByUserId(UserUpdateParam userUpdateParam);
 
     /**
      * <h2>修改个人密码</h2>
@@ -97,7 +97,7 @@ public interface UserService {
      * @param userDeleteParam 注销用户的Param实体
      * @return 影响条目数
      */
-    int deleteById(UserDeleteParam userDeleteParam);
+    int deleteByUserId(UserDeleteParam userDeleteParam);
 
     /**
      * <h2>修改个人头像</h2>
@@ -151,4 +151,5 @@ public interface UserService {
      * @return 用户积分
      */
     String selectPointsByUserId(Integer userId);
+
 }

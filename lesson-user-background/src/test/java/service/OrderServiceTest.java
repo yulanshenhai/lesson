@@ -50,9 +50,9 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testDeleteById() {
+    public void testDeleteByOrderId() {
         OrderDeleteParam orderDeleteParam = new OrderDeleteParam();
-        orderDeleteParam.setOrderId(3);
-        System.out.println(orderService.deleteById(orderDeleteParam) > 0 ? "成功" : "失败");
+        orderDeleteParam.setOrderId(7);
+        System.out.println(orderService.deleteByOrderId(orderDeleteParam) > 0 ? "成功" : "失败");
     }
 }

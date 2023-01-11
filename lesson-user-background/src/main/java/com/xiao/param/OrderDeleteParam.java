@@ -7,6 +7,9 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+/**
+ * @author xiao
+ */
 @Schema(name = "OrderDeleteParam", description = "用于删除订单的Param实体参数")
 @Data
 public class OrderDeleteParam implements Serializable {

@@ -107,13 +107,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateById(UserUpdateParam userUpdateParam) {
+    public int updateByUserId(UserUpdateParam userUpdateParam) {
         if (null == userUpdateParam.getId()) {
             throw new RuntimeException("必要参数为空");
         }
         User user = new User();
         BeanUtils.copyProperties(userUpdateParam, user);
-        return userMapper.updateById(user);
+        return userMapper.updateByUserId(user);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int deleteById(UserDeleteParam userDeleteParam) {
+    public int deleteByUserId(UserDeleteParam userDeleteParam) {
         Integer userId = userDeleteParam.getUserId();
         if (null == userId) {
             throw new RuntimeException("必要参数为空");
@@ -268,7 +268,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setId(userId);
         user.setAvatar(avatar);
-        return userMapper.updateById(user);
+        return userMapper.updateByUserId(user);
     }
 
     /**
@@ -296,7 +296,7 @@ public class UserServiceImpl implements UserService {
      * @param userId User主键
      */
     private void delUser(Integer userId) {
-        if (userMapper.deleteById(userId) <= 0) {
+        if (userMapper.deleteByUserId(userId) <= 0) {
             throw new RuntimeException("用户删除操作异常");
         }
     }
@@ -345,7 +345,7 @@ public class UserServiceImpl implements UserService {
     private void updateNewPassword(String newPassword, User user) {
         newPassword = EncryptionUtil.encryptPassword(newPassword);
         user.setPassword(newPassword);
-        if (userMapper.updateById(user) <= 0) {
+        if (userMapper.updateByUserId(user) <= 0) {
             throw new RuntimeException("修改密码异常");
         }
     }

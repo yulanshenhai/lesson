@@ -25,20 +25,20 @@ public class VideoMapperTest {
     }
 
     @Test
-    public void testSelectById() {
-        System.out.println(videoMapper.selectById(1));
+    public void testSelectByVideoId() {
+        System.out.println(videoMapper.selectByVideoId(1));
     }
 
     @Test
-    public void testSelectByIds() {
-        System.out.println(videoMapper.selectByIds(new Integer[]{1, 2, 3, 4}));
-        System.out.println(videoMapper.selectByIds(new Integer[]{}));
-        System.out.println(videoMapper.selectByIds(null));
+    public void testSelectByVideoIds() {
+        System.out.println(videoMapper.selectByVideoIds(new Integer[]{1, 2, 3, 4}));
+        System.out.println(videoMapper.selectByVideoIds(new Integer[]{}));
+        System.out.println(videoMapper.selectByVideoIds(null));
     }
 
     @Test
-    public void testSelectDetailById() {
-        Video video = videoMapper.selectDetailById(1);
+    public void testSelectDetailByVideoId() {
+        Video video = videoMapper.selectDetailByVideoId(1);
         System.out.println("video: " + video);
         video.getChapters().forEach(chapter -> {
             System.out.println("\tchapter: " + chapter);

@@ -18,7 +18,7 @@ public interface VideoService {
      * @param videoId Video表主键
      * @return 查询成功返回该条Video记录，查询失败直接返回null值
      */
-    Video selectDetailById(Integer videoId);
+    Video selectDetailByVideoId(Integer videoId);
 
     /**
      * 按视频标题从ES中搜索符合条件的VideoDoc记录
@@ -35,4 +35,5 @@ public interface VideoService {
      * @return
      */
     Episode selectFirstByVideoId(Integer id);
+
 }

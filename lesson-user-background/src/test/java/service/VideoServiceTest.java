@@ -22,7 +22,7 @@ public class VideoServiceTest {
 
     @Test
     public void testSelectDetailById() {
-        Video video = videoService.selectDetailById(1);
+        Video video = videoService.selectDetailByVideoId(1);
         System.out.println("video: " + video);
         video.getChapters().forEach(chapter -> {
             System.out.println("\tchapter: " + chapter);

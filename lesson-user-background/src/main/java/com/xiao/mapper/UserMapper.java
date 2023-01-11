@@ -53,7 +53,7 @@ public interface UserMapper {
             "<if test='id != null'> id = #{id} </if> OR 1 = 2" +
             "</where>" +
             "</script>")
-    int updateById(User user);
+    int updateByUserId(User user);
 
     /**
      * 按用户主键单删User记录
@@ -68,7 +68,7 @@ public interface UserMapper {
             "OR 1 = 2 " +
             "</where>" +
             "</script>")
-    int deleteById(Integer userId);
+    int deleteByUserId(Integer userId);
 
     /**
      * 按用户主键单查User记录

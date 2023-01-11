@@ -23,8 +23,8 @@ public class VideoOrderServiceTest {
     @Test
     public void testDeleteByVideoOrderId() {
         VideoOrderDeleteParam videoOrderDeleteParam = new VideoOrderDeleteParam();
-        videoOrderDeleteParam.setVideoOrderId(1);
-        videoOrderDeleteParam.setOrderId(1);
+        videoOrderDeleteParam.setVideoOrderId(7);
+        videoOrderDeleteParam.setOrderId(7);
         System.out.println(videoOrderService.deleteByVideoOrderId(videoOrderDeleteParam));
     }
 }

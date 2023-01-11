@@ -49,8 +49,8 @@ public class VideoServiceImpl implements VideoService {
     private EpisodeMapper episodeMapper;
 
     @Override
-    public Video selectDetailById(Integer videoId) {
-        return videoMapper.selectDetailById(videoId);
+    public Video selectDetailByVideoId(Integer videoId) {
+        return videoMapper.selectDetailByVideoId(videoId);
     }
 
     @Override

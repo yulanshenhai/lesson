@@ -43,7 +43,7 @@ public class UserMapperTest {
     }
 
     @Test
-    public void testUpdateById() {
+    public void testUpdateByUserId() {
         User user = new User();
         user.setId(1);
         user.setPassword("123");
@@ -54,11 +54,11 @@ public class UserMapperTest {
         user.setAvatar("default-user-avatar.jpeg");
         user.setPhone("13833333333");
         user.setInfo("是一个会跳舞的人");
-        System.out.println(userMapper.updateById(user) > 0 ? "成功" : "失败");
+        System.out.println(userMapper.updateByUserId(user) > 0 ? "成功" : "失败");
     }
 
     @Test
-    public void testSelectById() {
+    public void testSelectByUserId() {
         System.out.println(userMapper.selectByUserId(2));
     }
 
@@ -68,7 +68,7 @@ public class UserMapperTest {
     }
 
     @Test
-    public void testDeleteById() {
-        System.out.println(userMapper.deleteById(2) > 0 ? "成功" : "失败");
+    public void testDeleteByUserId() {
+        System.out.println(userMapper.deleteByUserId(2) > 0 ? "成功" : "失败");
     }
 }

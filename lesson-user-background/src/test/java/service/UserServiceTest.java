@@ -57,7 +57,7 @@ public class UserServiceTest {
         UserUpdateParam userUpdateParam = new UserUpdateParam();
         userUpdateParam.setId(1);
         userUpdateParam.setNickName("随机昵称...");
-        System.out.println(userService.updateById(userUpdateParam) > 0 ? "用户修改成功" : "用户修改失败");
+        System.out.println(userService.updateByUserId(userUpdateParam) > 0 ? "用户修改成功" : "用户修改失败");
     }
 
     @Test

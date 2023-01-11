@@ -80,9 +80,9 @@ public class UserController {
     @ResponseBody
     @Operation(summary = "按主键单删用户记录", description = "需要token验证")
     @Token
-    @PostMapping("/delete-by-id")
+    @PostMapping("/delete-by-user-id")
     public Result deleteById(@RequestBody UserDeleteParam userDeleteParam) {
-        return userService.deleteById(userDeleteParam) > 0 ?
+        return userService.deleteByUserId(userDeleteParam) > 0 ?
                 Result.ok() :
                 Result.fail(0, "删除失败");
     }
@@ -139,5 +139,15 @@ public class UserController {
                 Result.ok(points);
     }
 
+    @Operation(summary = "按主键单改用户记录", description = "需要token验证")
+    @Token
+    @PostMapping("/update-by-user-id")
+    public Result updateByUserId(@RequestBody @Validated UserUpdateParam userUpdateParam,
+                                 BindingResult bindingResult) {
+        BindingResultUtil.check(bindingResult);
+        return userService.updateByUserId(userUpdateParam) > 0 ?
+                Result.ok() :
+                Result.fail(0, "修改失败");
+    }
 
 }
