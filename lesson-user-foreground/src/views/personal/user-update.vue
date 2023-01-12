@@ -63,7 +63,7 @@
 
 <script setup>
 import CommonHeader from "@/components/common-header";
-import {USER_SELECT_BY_ID_API, USER_UPDATE_BY_ID_API} from '@/api'
+import {USER_SELECT_BY_USER_ID_API, USER_UPDATE_BY_USER_ID_API} from '@/api'
 import {useStore} from "vuex";
 import router from "@/router";
 import {onMounted, reactive, shallowReactive, shallowRef} from "vue";
@@ -76,7 +76,7 @@ const vuex = useStore();
 const loginFlag = vuex.state['loginFlag'];
 
 // data: 用户主键
-const userId = router.currentRoute.value.query['id'];
+const userId = router.currentRoute.value.query['user-id'];
 
 // data: 修改表单
 let updateForm = shallowRef();
@@ -93,21 +93,25 @@ let updateFormData = shallowReactive({
 // data: 修改表单校验规则
 let updateFormRule = reactive({
   'nick-name': [
-    {required: true, message: '用户昵称不能为空', trigger: 'blur'},
-    {min: 2, max: 15, message: '用户昵称长度在2-15个字符', trigger: 'blur'}
+    {required: true, message: '昵称不能为空', trigger: 'blur'},
+    {min: 2, max: 15, message: '昵称长度在2-15个字符', trigger: 'blur'}
   ],
   'gender': [
-    {required: true, message: '用户性别不能为空', trigger: 'blur'},
-    {pattern: /^[012]$/, message: '用户性别可选值：0男，1女，2保密', trigger: 'change'}
+    {required: true, message: '性别不能为空', trigger: 'blur'},
+    {pattern: /^[012]$/, message: '性别可选值：0男，1女，2保密', trigger: 'change'}
   ],
   'age': [
-    {required: true, message: '用户年龄不能为空', trigger: 'blur'},
+    {required: true, message: '年龄不能为空', trigger: 'blur'},
     {
       validator: (rule, value, callback) => {
         if (value >= 16 && value <= 60) callback();
-        else callback('用户年龄必须在16-60之间');
+        else callback('年龄必须在16-60之间');
       }, trigger: 'blur'
     }
+  ],
+  'info': [
+    {required: true, message: '描述不能为空', trigger: 'blur'},
+    {min: 0, max: 1024, message: '描述长度在0-1024个字符', trigger: 'blur'}
   ],
   'phone': [
     {required: true, message: '手机号码不能为空', trigger: 'blur'},
@@ -117,16 +121,12 @@ let updateFormRule = reactive({
       trigger: 'blur'
     }
   ],
-  'info': [
-    {required: true, message: '用户描述不能为空', trigger: 'blur'},
-    {min: 0, max: 1024, message: '用户描述长度在0-1024个字符', trigger: 'blur'}
-  ]
 })
 
 // method: 查询个人信息
 let selectUserByUserId = async (userId) => {
   try {
-    const resp = await USER_SELECT_BY_ID_API(userId);
+    const resp = await USER_SELECT_BY_USER_ID_API(userId);
     if (resp["data"]["code"] > 0) {
       let data = resp["data"]["data"];
       updateFormData['nick-name'] = data['nick-name'];
@@ -151,8 +151,8 @@ let updateByUserId = () => {
       return false;
     }
 
-    USER_UPDATE_BY_ID_API({
-      'id': userId,
+    USER_UPDATE_BY_USER_ID_API({
+      'user-id': userId,
       'nick-name': updateFormData['nick-name'],
       'gender': updateFormData['gender'],
       'age': updateFormData['age'],
@@ -173,7 +173,6 @@ let updateByUserId = () => {
 
 // mounted: 页面加载完毕后，立刻调用 `selectUserByUserId()` 方法
 onMounted(() => {
-
   // 未登录保护
   if (!loginFlag) {
 

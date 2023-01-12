@@ -1,9 +1,9 @@
 package com.xiao.controller;
 
 import com.xiao.annotation.Token;
+import com.xiao.entity.VideoOrder;
 import com.xiao.param.OrderDeleteParam;
 import com.xiao.param.OrderInsertParam;
-import com.xiao.param.OrderPageParam;
 import com.xiao.service.OrderService;
 import com.xiao.util.BindingResultUtil;
 import com.xiao.util.Result;
@@ -17,6 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author xiao
  */
@@ -29,7 +31,7 @@ public class OrderController {
     private OrderService orderService;
 
     @ResponseBody
-    @Operation(summary = "单增订单记录", description = "需要token验证")
+    @Operation(summary = "添加订单", description = "需要token验证")
     @Token
     @PostMapping("/insert")
     public Result insert(@RequestBody @Validated OrderInsertParam orderInsertParam,
@@ -38,6 +40,27 @@ public class OrderController {
         return orderService.insert(orderInsertParam) > 0 ?
                 Result.ok() :
                 Result.fail(0, "下单失败");
+    }
+
+    @ResponseBody
+    @Operation(summary = "根据用户主键查询订单记录", description = "需要token验证")
+    @Token
+    @GetMapping("/select-by-user-id")
+    public Result selectByUserId(@RequestParam("user-id") @Parameter(description = "用户表主键") Integer userId) {
+        List<VideoOrder> videoOrders = orderService.selectDetailByUserId(userId);
+        return videoOrders.isEmpty() ?
+                Result.fail(0, "该用户暂无订单记录") :
+                Result.ok(videoOrders);
+    }
+
+    @ResponseBody
+    @Operation(summary = "根据订单主键删除订单记录", description = "需要token验证")
+    @Token
+    @PostMapping("/delete-by-id")
+    public Result deleteById(@RequestBody OrderDeleteParam orderDeleteParam) {
+        return orderService.deleteById(orderDeleteParam) > 0 ?
+                Result.ok() :
+                Result.fail(0, "删除失败");
     }
 
     @ResponseBody

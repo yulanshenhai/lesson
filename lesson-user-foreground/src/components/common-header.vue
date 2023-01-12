@@ -23,11 +23,10 @@
 import router from "@/router";
 
 // props: 接收父组件传递过来的值
-let props = defineProps({
+defineProps({
   title: {
     type: String,
-    require: true,
-    default: '绝对在线课堂'
+    require: true
   }
 })
 
@@ -36,7 +35,7 @@ let props = defineProps({
 <style lang="scss" scoped>
 
 .common-header-body {
-  padding: 10px 20px; // 上下内边距 左右内边距
+  padding: 10px 20px;// 上下内边距 左右内边距
 }
 
 </style>

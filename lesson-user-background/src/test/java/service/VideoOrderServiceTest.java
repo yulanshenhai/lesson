@@ -3,7 +3,6 @@ package service;
 import com.xiao.UserBackgroundApp;
 import com.xiao.param.VideoOrderDeleteParam;
 import com.xiao.service.VideoOrderService;
-import com.xiao.vo.OrderPageVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class VideoOrderServiceTest {
     public void testDeleteByVideoOrderId() {
         VideoOrderDeleteParam videoOrderDeleteParam = new VideoOrderDeleteParam();
         videoOrderDeleteParam.setVideoOrderId(1);
-        videoOrderDeleteParam.setOrderId(9);
+        videoOrderDeleteParam.setOrderId(1);
         System.out.println(videoOrderService.deleteByVideoOrderId(videoOrderDeleteParam));
     }
 }

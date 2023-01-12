@@ -1,10 +1,7 @@
 package service;
 
 import com.xiao.UserBackgroundApp;
-import com.xiao.param.UserLoginByPhoneParam;
-import com.xiao.param.UserLoginParam;
-import com.xiao.param.UserRegisterParam;
-import com.xiao.param.UserUpdateParam;
+import com.xiao.param.*;
 import com.xiao.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-/**
- * @author xiao
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserBackgroundApp.class)
 public class UserServiceTest {
@@ -42,9 +36,9 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testSelectByUserId() {
-        System.out.println(userService.selectByUserId(1));
-//        System.out.println(userService.selectById(999));
+    public void testSelectById() {
+        System.out.println(userService.selectById(1));
+        System.out.println(userService.selectById(999));
     }
 
     @Test
@@ -57,21 +51,44 @@ public class UserServiceTest {
         UserUpdateParam userUpdateParam = new UserUpdateParam();
         userUpdateParam.setId(1);
         userUpdateParam.setNickName("随机昵称...");
-        System.out.println(userService.updateByUserId(userUpdateParam) > 0 ? "用户修改成功" : "用户修改失败");
+        System.out.println(userService.updateById(userUpdateParam) > 0 ? "用户修改成功" : "用户修改失败");
     }
 
     @Test
     public void testGetVerificationCode() {
-        System.out.println(userService.getVerificationCode("18770000000"));
+        System.out.println(userService.getVerificationCode("15546128685"));
     }
 
     @Test
     public void testLoginByPhone() {
         UserLoginByPhoneParam userLoginByPhoneParam = new UserLoginByPhoneParam();
-        userLoginByPhoneParam.setPhone("18770000000");
+        userLoginByPhoneParam.setPhone("15546128685");
         userLoginByPhoneParam.setVerificationCode("EfiE");
         System.out.println(userService.loginByPhone(userLoginByPhoneParam));
     }
 
+    @Test
+    public void testUpdateByUserId() {
+        UserUpdateParam userUpdateParam = new UserUpdateParam();
+        userUpdateParam.setId(1);
+        userUpdateParam.setNickName("随机昵称...");
+        System.out.println(userService.updateByUserId(userUpdateParam) > 0 ? "用户修改成功" : "用户修改失败");
+    }
+
+    @Test
+    public void testUpdatePasswordByUserId() {
+        UserUpdatePasswordParam userUpdatePasswordParam = new UserUpdatePasswordParam();
+        userUpdatePasswordParam.setId(6);
+        userUpdatePasswordParam.setOldPassword("123456");
+        userUpdatePasswordParam.setNewPassword("111111");
+        System.out.println(userService.updatePasswordByUserId(userUpdatePasswordParam) > 0 ? "成功" : "失败");
+    }
+
+    @Test
+    public void testDeleteByUserId() {
+        UserDeleteParam userDeleteParam = new UserDeleteParam();
+        userDeleteParam.setUserId(1);
+        System.out.println(userService.deleteByUserId(userDeleteParam) > 0 ? "成功" : "失败");
+    }
 
 }

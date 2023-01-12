@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface OrderMapper {
-
     String SELECT_ALL = "SELECT o.id, o.number, o.state, o.total_fee, o.info, o.create_time, o.last_modify " +
             "FROM lesson.`order` o ";
 
@@ -28,9 +27,9 @@ public interface OrderMapper {
     int insert(Order order);
 
     /**
-     * 按订单主键单查Order记录
+     * 按主键单查Order记录
      *
-     * @param orderId Order表主键
+     * @param id Order表主键
      * @return 单条Order记录
      */
     @Select("<script>" + SELECT_ALL +
@@ -39,7 +38,23 @@ public interface OrderMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    Order selectById(Integer orderId);
+    Order selectById(Integer id);
+
+    /**
+     * 按主键单删Order记录
+     *
+     * @param id Order表主键
+     * @return 影响条目数
+     */
+    @Delete("<script>" +
+            "DELETE FROM lesson.`order`" +
+            "<where>" +
+            "<if test='_parameter != null'> id = #{param1} </if> " +
+            "OR 1 = 2 " +
+            "</where>" +
+            "</script>")
+    int deleteById(Integer id);
+
 
     /**
      * 按订单主键单删Order记录
@@ -56,4 +71,18 @@ public interface OrderMapper {
             "</script>")
     int deleteByOrderId(Integer orderId);
 
+
+    /**
+     * 按订单主键单查Order记录
+     *
+     * @param orderId Order表主键
+     * @return 单条Order记录
+     */
+    @Select("<script>" + SELECT_ALL +
+            "<where>" +
+            "<if test='_parameter != null'> o.id = #{param1} </if> " +
+            "OR 1 = 2" +
+            "</where>" +
+            "</script>")
+    Order selectByOrderId(Integer orderId);
 }

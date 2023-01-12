@@ -3,15 +3,14 @@ package mapper;
 import com.xiao.UserBackgroundApp;
 import com.xiao.entity.Video;
 import com.xiao.mapper.VideoMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-/**
- * @author xiao
- */
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserBackgroundApp.class)
 public class VideoMapperTest {
@@ -21,29 +20,27 @@ public class VideoMapperTest {
 
     @Test
     public void testList() {
-        videoMapper.list().forEach(System.out::println);
+        videoMapper.list().forEach(video -> log.info("video: {}", video));
     }
 
     @Test
-    public void testSelectByVideoId() {
-        System.out.println(videoMapper.selectById(1));
+    public void testSelectById() {
+        log.info("video: {}", videoMapper.selectById(1));
     }
 
     @Test
-    public void testSelectByVideoIds() {
-        System.out.println(videoMapper.selectByVideoIds(new Integer[]{1, 2, 3, 4}));
-        System.out.println(videoMapper.selectByVideoIds(new Integer[]{}));
-        System.out.println(videoMapper.selectByVideoIds(null));
-    }
-
-    @Test
-    public void testSelectDetailByVideoId() {
-        Video video = videoMapper.selectDetailByVideoId(1);
-        System.out.println("video: " + video);
+    public void testSelectDetailById() {
+        Video video = videoMapper.selectDetailById(1);
+        log.info("video: {}", video);
         video.getChapters().forEach(chapter -> {
-            System.out.println("\tchapter: " + chapter);
-            chapter.getEpisodes().forEach(episode -> System.out.println("\t\tepisode: " + episode));
+            log.info("chapter: {}", chapter);
+            chapter.getEpisodes().forEach(episode -> log.info("episode: {}", episode));
         });
     }
 
+    @Test
+    public void selectLikeTitle() {
+        String title = "框架";
+        videoMapper.selectLikeTitle(title).forEach(System.out::println);
+    }
 }

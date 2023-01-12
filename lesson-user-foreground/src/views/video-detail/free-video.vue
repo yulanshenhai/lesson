@@ -1,5 +1,5 @@
 <template>
-  <section class="free-video-body">
+  <section className="free-video-body">
 
     <!--西瓜视频播放器容器-->
     <article id="video-content"></article>
@@ -10,14 +10,13 @@
 
 import XGPlayer from 'xgplayer';
 import {nginxVideo} from "@/global_variable";
-import {onMounted} from "vue";
+import {onMounted, defineProps} from "vue";
 
 // props: 接收父组件传递过来的值
 let props = defineProps({
   firstEpisodeUrl: {
     type: String,
-    required: true,
-    default: 'default-video.mp4'
+    required: true
   }
 })
 

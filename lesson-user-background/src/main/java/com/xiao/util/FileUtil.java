@@ -14,9 +14,9 @@ import java.io.File;
 public class FileUtil {
 
     private static final String ENDPOINT = "oss-cn-hangzhou.aliyuncs.com";
-    private static final String ACCESS_KEY_ID = "LTAI5tQ7CnTsKHKpPc65jj4K";
-    private static final String ACCESS_KEY_SECRET = "M9vwjERjb4fldPUpAhvZVG5yeQOKSe";
-    private static final String BUCKET_NAME = "xiao-lesson-bucket";
+    private static final String ACCESS_KEY_ID = "LTAI5tERWXtq3D53ABCarV1k";
+    private static final String ACCESS_KEY_SECRET = "lB2DHF9SjUzVT2FRaSgLCjc3VsddYC";
+    private static final String BUCKET_NAME = "v2-lesson-bucket";
     private static final String AVATAR_OSS_DIR = "user-avatar/";
     private static final String AVATAR_LOCAL_DIR = "D:\\idea\\upload\\user-avatar";
 
@@ -45,9 +45,13 @@ public class FileUtil {
         if (StringUtils.isBlank(avatarFileName)) {
             throw new RuntimeException("待删除的文件file为空");
         }
-        OSS oss = FileUtil.createOssClient();
-        oss.deleteObject(BUCKET_NAME, AVATAR_OSS_DIR + avatarFileName);
-        oss.shutdown();
+
+        // 默认头像文件不能删除
+        if (!"default-user-avatar.jpg".equals(avatarFileName)) {
+            OSS oss = FileUtil.createOssClient();
+            oss.deleteObject(BUCKET_NAME, AVATAR_OSS_DIR + avatarFileName);
+            oss.shutdown();
+        }
     }
 
     /**

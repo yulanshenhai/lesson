@@ -29,9 +29,9 @@ public interface VideoMapper {
     List<Video> list();
 
     /**
-     * 按视频主键单查Video记录
+     * 按主键单查Video记录
      *
-     * @param videoId Video表主键
+     * @param id Video表主键
      * @return 单条Video记录
      */
     @Select("<script>" + SELECT_ALL +
@@ -40,28 +40,28 @@ public interface VideoMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    Video selectById(Integer videoId);
+    Video selectById(Integer id);
 
     /**
-     * 按视频主键数组批查Video记录
+     * 按主键批查Video记录
      *
-     * @param videoIds Video主键数组
+     * @param ids 主键数组
      * @return 批量Video记录
      */
     @Select("<script>" + SELECT_ALL +
             "<where>" +
             "<if test='_parameter != null'>" +
-            "<foreach collection='array' item='e' open='v.id in (' close=')' separator=',' > #{e} </foreach>" +
+            "<foreach collection='array' item='e' open='id in (' close=')' separator=',' > #{e} </foreach>" +
             "</if>" +
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    List<Video> selectByVideoIds(Integer[] videoIds);
+    List<Video> selectByIds(Integer[] ids);
 
     /**
-     * 按视频主键单查Video完整记录：分步查询视频中章的信息和每一张下集的信息
+     * 按主键单查Video完整记录：分步查询视频中章的信息和每一张下集的信息
      *
-     * @param videoId Video表主键
+     * @param id Video表主键
      * @return 单条Video完整记录
      */
     @Results({
@@ -76,5 +76,19 @@ public interface VideoMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    Video selectDetailByVideoId(Integer videoId);
+    Video selectDetailById(Integer id);
+
+    /**
+     * 根据视频标题title模糊查询匹配的Video记录
+     *
+     * @param title 视频标题
+     * @return 匹配的Video记录
+     */
+    @Select("<script>" + SELECT_ALL +
+            "<where>" +
+            "<if test='_parameter != null'> v.title like concat('%', #{param1}, '%' )</if> " +
+            "OR 1 = 2" +
+            "</where>" +
+            "</script>")
+    List<Video> selectLikeTitle(String title);
 }

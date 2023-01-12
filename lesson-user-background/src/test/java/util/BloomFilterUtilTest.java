@@ -2,8 +2,6 @@ package util;
 
 import com.xiao.util.BloomFilterUtil;
 import org.junit.Test;
-
-
 public class BloomFilterUtilTest {
     @Test
     public void testBloomFilterUtil(){

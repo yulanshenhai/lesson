@@ -10,7 +10,7 @@ public class JedisClusterUtilTest {
     @Test
     public void testGetJedis() {
         JedisCluster jedis = JedisClusterUtil.getJedis();
-        System.out.println(jedis.set("name","joe"));
+        System.out.println(jedis.set("name","xiao"));
         JedisClusterUtil.closeJedisCluster(jedis);
     }
 

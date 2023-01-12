@@ -46,9 +46,6 @@
 
       </article>
 
-      <!--      <article class="header-foot">-->
-      <!--        <order-list></order-list>-->
-      <!--      </article>-->
 
     </article>
 
@@ -93,15 +90,14 @@
 <script setup>
 import CommonFooter from "@/components/common-footer";
 import CommonHeader from "@/components/common-header";
-import {USER_DELETE_BY_USER_ID_API, USER_SELECT_BY_ID_API} from "@/api";
+import {USER_DELETE_BY_USER_ID_API, USER_SELECT_BY_USER_ID_API} from "@/api";
 import router from "@/router";
 import {useStore} from 'vuex';
 import {computed, onMounted, ref} from "vue";
-// https://v2-lesson-bucket.oss-cn-hangzhou.aliyuncs.com/user-avatar/
 import {ossUserAvatar} from "@/global_variable";
 import {ElMessage} from "element-plus";
 
-import OrderList from "@/views/personal/order-list";
+
 
 // data: Vuex实例
 const vuex = useStore();
@@ -122,9 +118,9 @@ let ossSrc = computed(() => src => ossUserAvatar + src);
 let getPreviewList = computed(() => src => [ossUserAvatar + src]);
 
 // method: 按 `用户ID` 查询一条 `用户` 记录
-let selectById = async (userId) => {
+let selectByUserId = async (userId) => {
   try {
-    const resp = await USER_SELECT_BY_ID_API(userId);
+    const resp = await USER_SELECT_BY_USER_ID_API(userId);
     if (resp["data"]["code"] > 0) {
       user.value = resp["data"]["data"];
     } else console.error(resp["data"]["message"]);
@@ -160,7 +156,7 @@ let deleteByUserId = () => {
 
   // 调用对应API接口
   USER_DELETE_BY_USER_ID_API({
-    'id': userId
+    'user-id': userId
   }).then(resp => {
     if (resp["data"]["code"] > 0) {
       ElMessage("账号注销成功");
@@ -174,7 +170,7 @@ let deleteByUserId = () => {
 
 // mounted: 页面加载完毕后，立刻调用 `selectByUserId()` 方法
 onMounted(() => {
-  if(loginFlag) selectById(userId);
+  if(loginFlag) selectByUserId(userId);
 });
 
 </script>
@@ -189,7 +185,7 @@ onMounted(() => {
 
     height: 200px; // 高度
     padding: 50px 0; // 上下内边距 左右内边距
-    background-color: #2c3f54; // 背景色
+    background-color: yellow; // 背景色
     text-align: center; // 内容居中
 
     /*头像图片*/
@@ -216,21 +212,6 @@ onMounted(() => {
 
     padding-top: 20px; // 上内边距
 
-    /* 退出登录，立刻登录按钮 */
-    .exit-btn, .login-btn {
-      display: block; // 区块
-      width: 80%; // 宽度
-      height: 40px; // 高度
-      margin: 20px auto 0; // 上外边距 左右自居中 下外边距
-      color: #fff; // 前景色
-      border-radius: 20px; // 圆角
-    }
-
-    /*修改个人新按钮，注销个人账号按钮*/
-    .update-btn, .delete-btn {
-      margin: 10px; // 外边距
-    }
-
     /* 功能按钮 */
     .opera-btn {
 
@@ -243,8 +224,8 @@ onMounted(() => {
       font-size: 0.9em; // 字号
       letter-spacing: 5px; // 子间距
     }
-  }
 
+  }
 }
 
 

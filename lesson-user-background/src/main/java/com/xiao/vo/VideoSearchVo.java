@@ -1,13 +1,14 @@
 package com.xiao.vo;
 
+import com.xiao.entity.Video;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xiao.entity.Video;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
+
 
 /**
  * @author xiao

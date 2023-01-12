@@ -2,7 +2,7 @@ package com.xiao.service;
 
 import com.xiao.entity.User;
 import com.xiao.param.*;
-import com.xiao.vo.UserLoginVo;
+import java.util.List;
 
 /**
  * @author xiao
@@ -28,15 +28,15 @@ public interface UserService {
      * <p> 02. 使用 `EncryptionUtil.encryptPassword()` 对 `password` 密码进行MD5加密。
      * <p> 03. 调用Mapper接口按账号密码查询User记录。
      * <p> 04. 登录失败：直接返回null值。
-     * <p> 05. 登录成功：将电话号码和身份证号脱敏后，组装UserVo并返回。
+     * <p> 05. 登录成功：将电话号码和身份证号脱敏后返回。
      *
      * @param userLoginParam 用户登录业务实体参数
-     * @return 登录成功返回该用户VO实体，失败返回null
+     * @return 登录成功返回该用户记录，失败返回null
      */
-    UserLoginVo login(UserLoginParam userLoginParam);
+    User login(UserLoginParam userLoginParam);
 
     /**
-     * <h2>按用户主键查询个人信息</h2>
+     * <h2>按主键查询个人信息</h2>
      * <p> 01. 调用Mapper接口按主键查询User记录。
      * <p> 02. 查询失败：直接返回null值。
      * <p> 03. 查询成功：将电话号码和身份证号脱敏后返回。
@@ -44,7 +44,8 @@ public interface UserService {
      * @param userId User表主键
      * @return 返回该用户记录，查询失败返回null
      */
-    User selectByUserId(Integer userId);
+    User selectById(Integer userId);
+
 
     /**
      * <h2>按手机号码查询个人信息</h2>
@@ -69,14 +70,13 @@ public interface UserService {
      * @param userUpdateParam 用户修改业务实体参数
      * @return 影响条目数
      */
-    int updateByUserId(UserUpdateParam userUpdateParam);
+    int updateById(UserUpdateParam userUpdateParam);
 
     /**
      * <h2>修改个人密码</h2>
-     * <p> 01. 检查必填参数：若包含null值则直接抛出参数异常。
-     * <p> 02. 调用Mapper接口检查该用户是否存在，不存在则抛异常。
-     * <p> 03. 调用Mapper接口检查该用户的原密码是否正确，密码需要加密后比对，不正确则抛异常。
-     * <p> 04. 调用Mapper接口修改该用户的密码为新密码，新密码需要加密和入库。
+     * <p> 01. 调用Mapper接口检查该用户是否存在，不存在则抛异常。
+     * <p> 02. 调用Mapper接口检查该用户的原密码是否正确，密码需要加密后比对，不正确则抛异常。
+     * <p> 03. 调用Mapper接口修改该用户的密码为新密码，新密码需要加密和入库。
      *
      * @param userUpdatePasswordParam 用户修改密码业务实体参数
      * @return 影响条目数
@@ -87,31 +87,32 @@ public interface UserService {
      * <h2>注销个人账号</h2>
      * <p>
      * <p> 01. 方法需要添加 `@Transactional(rollbackFor = Exception.class)` 本地事务保护。
-     * <p> 02. 检查必填参数：若包含null值则直接抛出参数异常。
-     * <p> 03. 调用Mapper接口检查该用户是否存在，不存在则抛异常。
-     * <p> 04. 调用Mapper接口查询该用户关联的全部VideoOrder表记录。
-     * <p> 05. 调用Mapper接口删除该用户关联的VideoOrder表记录，若不存在则略过。
-     * <p> 06. 调用Mapper接口删除该用户关联的Order表记录，若不存在则略过。
-     * <p> 07. 调用Mapper接口删除该用户的User表记录。
+     * <p> 02. 调用Mapper接口检查该用户是否存在，不存在则抛异常。
+     * <p> 03. 调用Mapper接口查询该用户关联的全部VideoOrder表记录。
+     * <p> 04. 调用Mapper接口删除该用户关联的VideoOrder表记录，若不存在则略过。
+     * <p> 05. 调用Mapper接口删除该用户关联的Order表记录，若不存在则略过。
+     * <p> 06. 调用Mapper接口删除该用户的User表记录。
      *
      * @param userDeleteParam 注销用户的Param实体
      * @return 影响条目数
      */
-    int deleteByUserId(UserDeleteParam userDeleteParam);
+    int deleteById(UserDeleteParam userDeleteParam);
 
     /**
-     * <h2>修改个人头像</h2>
-     * <p>
-     * <p> 01. 添加 `@Transactional(rollbackFor = Exception.class)` 本地事务保护，抛出异常时触发回滚。
-     * <p> 02. 调用Mapper接口检查用户是否存在，存在返回该用户的User记录，不存在直接抛异常。
-     * <p> 03. 使用 `FileUtil.deleteAvatarFromOss(oldAvatar)` 若用户拥有旧头像，则将用户的旧头像从OSS中删除。
-     * <p> 04. 使用 `FileUtil.uploadAvatarToOss(avatarFile)` 将文件上传到OSS云并返回OSS头像路径。
-     * <p> 05. 调用Mapper接口修改用户新头像本地地址为OSS头像路径。
+     * 修改个人头像
      *
      * @param userUpdateAvatarDTO User表修改头像的DTO实体
      * @return 影响条目数
      */
     int updateAvatarById(UserUpdateAvatarParam userUpdateAvatarDTO);
+
+    /**
+     * 全查用户记录
+     *
+     * @return 全部用户的User记录
+     */
+    List<User> list();
+
 
     /**
      * <h2>获取一个4位的随机验证码</h2>
@@ -129,6 +130,7 @@ public interface UserService {
      */
     String getVerificationCode(String phone);
 
+
     /**
      * <h2>按手机号码和验证码进行登录</h2>
      * <p> 01. 检查必要参数，若必要参数为空则直接抛出异常。
@@ -138,18 +140,52 @@ public interface UserService {
      * <p> 05. 调用 `JedisStandaloneUtil.closeJedis(jedis)` 关闭Jedis连接以节省资源。
      *
      * @param userLoginByPhoneParam 用于用户按手机号码和验证码进行登录的Param实体参数
-     * @return 登录失败返回null，登录成功返回对应的UserVo实体
+     * @return 登录失败返回null，登录成功返回对应的User信息
      */
-    UserLoginVo loginByPhone(UserLoginByPhoneParam userLoginByPhoneParam);
+    User loginByPhone(UserLoginByPhoneParam userLoginByPhoneParam);
+
 
     /**
-     * <h2>根据用户主键查询用户积分</h2>
-     * <p> 01. 使用 `JedisStandaloneUtil` 工具获取一个单机的Jedis连接实例。
-     * <p> 02. 调用 `jedis.get(key)` 获取用户积分。
-     * <p> 03. 调用 `JedisStandaloneUtil.closeJedis(jedis)` 关闭Jedis连接以节省资源。
-     * @param userId User主键
-     * @return 用户积分
+     * <h2>修改个人信息</h2>
+     * <p>其中ID，USERNAME和CREATE_TIME字段不允许修改
+     * <p>其中REAL_NAME和ID_CARD在单独业务中进行修改
+     * <p>其中PASSWORD在单独业务中进行修改
+     * <p>其中PHONE在单独业务中进行修改
+     * <p> 01. 判断必填属性：若主键为null，则直接抛出参数异常。
+     * <p> 02. 调用Mapper接口按主键修改用户记录，返回操作影响条目数。
+     *
+     * @param userUpdateParam 用户修改业务实体参数
+     * @return 影响条目数
      */
-    String selectPointsByUserId(Integer userId);
+    int updateByUserId(UserUpdateParam userUpdateParam);
 
+
+    /**
+     * <h2>修改个人密码</h2>
+     * <p> 01. 检查必填参数：若包含null值则直接抛出参数异常。
+     * <p> 02. 调用Mapper接口检查该用户是否存在，不存在则抛异常。
+     * <p> 03. 调用Mapper接口检查该用户的原密码是否正确，密码需要加密后比对，不正确则抛异常。
+     * <p> 04. 调用Mapper接口修改该用户的密码为新密码，新密码需要加密和入库。
+     *
+     * @param userUpdatePasswordParam 用户修改密码业务实体参数
+     * @return 影响条目数
+     */
+    int updatePasswordByUserId(UserUpdatePasswordParam userUpdatePasswordParam);
+
+
+    /**
+     * <h2>注销个人账号</h2>
+     * <p>
+     * <p> 01. 方法需要添加 `@Transactional(rollbackFor = Exception.class)` 本地事务保护。
+     * <p> 02. 检查必填参数：若包含null值则直接抛出参数异常。
+     * <p> 03. 调用Mapper接口检查该用户是否存在，不存在则抛异常。
+     * <p> 04. 调用Mapper接口查询该用户关联的全部VideoOrder表记录。
+     * <p> 05. 调用Mapper接口删除该用户关联的VideoOrder表记录，若不存在则略过。
+     * <p> 06. 调用Mapper接口删除该用户关联的Order表记录，若不存在则略过。
+     * <p> 07. 调用Mapper接口删除该用户的User表记录。
+     *
+     * @param userDeleteParam 注销用户的Param实体
+     * @return 影响条目数
+     */
+    int deleteByUserId(UserDeleteParam userDeleteParam);
 }

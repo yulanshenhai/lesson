@@ -193,7 +193,7 @@ let toLogin = () => router.push('/login');
     margin: 5px auto; // 上下外边距 左右自居中
     width: 100%; // 宽度
   }
-  
+
 }
 
 </style>

@@ -8,7 +8,6 @@ const prodIp = '192.168.44.77';
 const resNginxHost = `http://${prodIp}:8023`;
 
 // OSS服务器Host地址
-// https://oss.console.aliyun.com/bucket/oss-cn-hangzhou/v2-lesson-bucket/overview：在访问端口栏查看地址
 const ossHost = 'https://xiao-lesson-bucket.oss-cn-hangzhou.aliyuncs.com/';
 
 // 用户后台服务地址

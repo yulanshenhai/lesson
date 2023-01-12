@@ -58,7 +58,7 @@
 <script setup>
 
 import CommonHeader from "@/components/common-header";
-import {USER_UPDATE_PASSWORD_BY_ID_API} from '@/api'
+import {USER_UPDATE_PASSWORD_BY_USER_ID_API} from '@/api'
 import {useStore} from "vuex";
 import router from "@/router";
 import {onMounted, reactive, shallowReactive, shallowRef} from "vue";
@@ -71,7 +71,7 @@ const vuex = useStore();
 const loginFlag = vuex.state['loginFlag'];
 
 // data: 用户主键
-const userId = sessionStorage.getItem('id');
+const userId = sessionStorage.getItem('user-id');
 
 // data: 修改表单
 let updatePasswordForm = shallowRef();
@@ -115,8 +115,8 @@ let updatePasswordByUserId = () => {
     }
 
     // 同步调用对应的API接口
-    USER_UPDATE_PASSWORD_BY_ID_API({
-      'id': userId,
+    USER_UPDATE_PASSWORD_BY_USER_ID_API({
+      'user-id': userId,
       'old-password': updatePasswordFormData['old-password'],
       'new-password': updatePasswordFormData['new-password'],
     }).then(resp => {
@@ -130,8 +130,8 @@ let updatePasswordByUserId = () => {
         // 清除sessionStorage中的token值
         sessionStorage.removeItem("token");
 
-        // 清除sessionStorage中的id值
-        sessionStorage.removeItem("id");
+        // 清除sessionStorage中的user-id值
+        sessionStorage.removeItem("user-id");
 
         // 跳入到Login组件
         router.push("/login");

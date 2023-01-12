@@ -12,9 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 
-/**
- * @author xiao
- */
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserBackgroundApp.class)
@@ -43,7 +40,7 @@ public class UserMapperTest {
     }
 
     @Test
-    public void testUpdateByUserId() {
+    public void testUpdateById() {
         User user = new User();
         user.setId(1);
         user.setPassword("123");
@@ -54,11 +51,11 @@ public class UserMapperTest {
         user.setAvatar("default-user-avatar.jpeg");
         user.setPhone("13833333333");
         user.setInfo("是一个会跳舞的人");
-        System.out.println(userMapper.updateByUserId(user) > 0 ? "成功" : "失败");
+        System.out.println(userMapper.updateById(user) > 0 ? "成功" : "失败");
     }
 
     @Test
-    public void testSelectByUserId() {
+    public void testSelectById() {
         System.out.println(userMapper.selectById(2));
     }
 
@@ -68,7 +65,7 @@ public class UserMapperTest {
     }
 
     @Test
-    public void testDeleteByUserId() {
-        System.out.println(userMapper.deleteByUserId(6) > 0 ? "成功" : "失败");
+    public void testDeleteById() {
+        System.out.println(userMapper.deleteById(2) > 0 ? "成功" : "失败");
     }
 }

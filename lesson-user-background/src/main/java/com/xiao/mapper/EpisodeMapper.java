@@ -45,7 +45,6 @@ public interface EpisodeMapper {
             "</script>")
     Episode selectFirstByVideoId(Integer videoId);
 
-
     /**
      * 按Chapter主键查询第一条Episode记录
      *

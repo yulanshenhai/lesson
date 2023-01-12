@@ -26,7 +26,7 @@
           :title="banner['info']"：鼠标悬停在图片上时展示图片的介绍
         -->
         <a :href="banner['url']">
-          <el-image :src="nginxSrc(banner['src'])" :title="banner['info']" class="cover-image"/>
+          <el-image :src="nginxSrc(banner['src'])" :title="banner['info']" class="image"/>
         </a>
 
       </el-carousel-item>
@@ -42,7 +42,7 @@
     <!--
       :src="require('@/assets/no-banner-tips.png')"：展示本地资源时必须使用 require() 函数
     -->
-    <el-image :src="require('@/assets/no-banner-tips.png')" class="cover-image"/>
+    <el-image :src="require('@/assets/no-banner-tips.png')" class="image"/>
 
   </header>
 
@@ -52,7 +52,7 @@
 
 import {computed, onMounted, shallowRef} from "vue";
 import {BANNER_LIST_API} from "@/api";
-import {nginxBanner} from "@/global_variable.js";
+import {nginxBanner} from "@/global_variable";
 
 // data: 轮播图数据列表
 let banners = shallowRef([]);
@@ -80,12 +80,7 @@ onMounted(() => listBanner());
 <style lang="scss" scoped>
 
 .banner-header {
-
-  .cover-image {
-    width: 100%;
-    height: 100%;
-  }
-
+  padding: 10px; // 外边距
 }
 
 </style>

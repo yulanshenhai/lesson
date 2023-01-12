@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserBackgroundApp.class)
 public class OrderMapperTest {
@@ -20,7 +21,7 @@ public class OrderMapperTest {
     @Test
     public void testInsert() {
         Order order = new Order();
-        order.setNumber("999999");
+        order.setNumber("888888");
         order.setState(0);
         order.setTotalFee(0.0D);
         order.setCreateTime(new Date(999999999L));
@@ -30,12 +31,12 @@ public class OrderMapperTest {
     }
 
     @Test
-    public void testSelectByOrderId() {
+    public void testSelectById() {
         System.out.println("videoOrder: " + orderMapper.selectById(1));
     }
 
     @Test
-    public void testDeleteByOrderId() {
-        System.out.println(orderMapper.deleteByOrderId(8) > 0 ? "成功" : "失败");
+    public void testDeleteById() {
+        System.out.println(orderMapper.deleteById(1) > 0 ? "成功" : "失败");
     }
 }
