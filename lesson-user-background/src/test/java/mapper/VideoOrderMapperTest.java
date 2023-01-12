@@ -10,29 +10,36 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
-import java.util.List;
 
+/**
+ * @author xiao
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserBackgroundApp.class)
 public class VideoOrderMapperTest {
+
     @Autowired
     private VideoOrderMapper videoOrderMapper;
 
     @Test
     public void testInsert() {
         VideoOrder videoOrder = new VideoOrder();
-        videoOrder.setOrderId(1);
         videoOrder.setVideoId(1);
+        videoOrder.setOrderId(1);
         videoOrder.setUserId(1);
-        videoOrder.setInfo("测试描述");
         videoOrder.setCreateTime(new Date(999999999L));
         videoOrder.setLastModify(new Date());
-
+        videoOrder.setInfo("测试描述");
         System.out.println(videoOrderMapper.insert(videoOrder) > 0 ? "成功" : "失败");
     }
 
     @Test
-    public void testDeleteUserById() {
+    public void testDeleteByVideoOrderId() {
+        System.out.println(videoOrderMapper.deleteByVideoOrderId(65) > 0 ? "成功" : "失败");
+    }
+
+    @Test
+    public void testDeleteByUserId() {
         System.out.println(videoOrderMapper.deleteByUserId(999) > 0 ? "成功" : "失败");
     }
 
@@ -47,8 +54,13 @@ public class VideoOrderMapperTest {
     }
 
     @Test
-    public void testSelectDetailById() {
-        VideoOrder videoOrder = videoOrderMapper.selectDetailById(7);
+    public void testSelectById() {
+        videoOrderMapper.selectByOrderId(19).forEach(System.out::println);
+    }
+
+    @Test
+    public void testSelectDetailByOrderId() {
+        VideoOrder videoOrder = videoOrderMapper.selectDetailByVideoOrderId(11);
         System.out.println("videoOrder: " + videoOrder);
         System.out.println("user: " + videoOrder.getUser());
         System.out.println("video: " + videoOrder.getVideo());
@@ -57,11 +69,11 @@ public class VideoOrderMapperTest {
 
     @Test
     public void testSelectDetailByUserId() {
-        List<VideoOrder> videoOrders = videoOrderMapper.selectDetailByUserId(1);
-        if (videoOrders.isEmpty()) {
-            System.out.println("暂无中间表数据");
-        } else {
-            videoOrders.forEach(System.out::println);
-        }
+        videoOrderMapper.selectDetailByUserId(10).forEach(System.out::println);
+    }
+
+    @Test
+    public void testSelectByUserIdAndVideoIds() {
+        System.out.println(videoOrderMapper.selectByUserIdAndVideoIds(1, new Integer[]{2, 5, 6}));
     }
 }

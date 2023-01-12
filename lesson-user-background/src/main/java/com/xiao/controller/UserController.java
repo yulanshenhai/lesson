@@ -56,10 +56,10 @@ public class UserController {
     @ResponseBody
     @Operation(summary = "按主键单查用户记录", description = "需要token验证")
     @Token
-    @GetMapping("/select-by-id")
+    @GetMapping("/select-by-user-id")
     public Result selectById(@Parameter(description = "用户表主键")
                              @RequestParam("user-id") Integer userId) {
-        User user = userService.selectById(userId);
+        User user = userService.selectByUserId(userId);
         return user != null ?
                 Result.ok(user) :
                 Result.fail(0, "账号/用户不存在");

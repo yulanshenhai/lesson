@@ -39,7 +39,7 @@ public interface OrderMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    Order selectByOrderId(Integer orderId);
+    Order selectById(Integer orderId);
 
     /**
      * 按订单主键单删Order记录

@@ -76,7 +76,7 @@ public interface VideoOrderMapper {
             "<where>" +
             "<if test='_parameter != null'> vo.id = #{param1} </if> OR 1 = 2 </where>" +
             "</script>")
-    VideoOrder selectDetailById(Integer videoOrderId);
+    VideoOrder selectDetailByVideoOrderId(Integer videoOrderId);
 
     /**
      * 按User主键查询VideoOrder记录

@@ -63,7 +63,7 @@
 
 <script setup>
 import CommonHeader from "@/components/common-header";
-import {USER_SELECT_BY_USER_ID_API, USER_UPDATE_BY_USER_ID_API} from '@/api'
+import {USER_SELECT_BY_ID_API, USER_UPDATE_BY_ID_API} from '@/api'
 import {useStore} from "vuex";
 import router from "@/router";
 import {onMounted, reactive, shallowReactive, shallowRef} from "vue";
@@ -76,7 +76,7 @@ const vuex = useStore();
 const loginFlag = vuex.state['loginFlag'];
 
 // data: 用户主键
-const userId = router.currentRoute.value.query['user-id'];
+const userId = router.currentRoute.value.query['id'];
 
 // data: 修改表单
 let updateForm = shallowRef();
@@ -126,7 +126,7 @@ let updateFormRule = reactive({
 // method: 查询个人信息
 let selectUserByUserId = async (userId) => {
   try {
-    const resp = await USER_SELECT_BY_USER_ID_API(userId);
+    const resp = await USER_SELECT_BY_ID_API(userId);
     if (resp["data"]["code"] > 0) {
       let data = resp["data"]["data"];
       updateFormData['nick-name'] = data['nick-name'];
@@ -151,8 +151,8 @@ let updateByUserId = () => {
       return false;
     }
 
-    USER_UPDATE_BY_USER_ID_API({
-      'user-id': userId,
+    USER_UPDATE_BY_ID_API({
+      'id': userId,
       'nick-name': updateFormData['nick-name'],
       'gender': updateFormData['gender'],
       'age': updateFormData['age'],

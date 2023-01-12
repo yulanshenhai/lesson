@@ -59,7 +59,7 @@ public class UserMapperTest {
 
     @Test
     public void testSelectByUserId() {
-        System.out.println(userMapper.selectByUserId(2));
+        System.out.println(userMapper.selectById(2));
     }
 
     @Test
@@ -69,6 +69,6 @@ public class UserMapperTest {
 
     @Test
     public void testDeleteByUserId() {
-        System.out.println(userMapper.deleteByUserId(2) > 0 ? "成功" : "失败");
+        System.out.println(userMapper.deleteByUserId(6) > 0 ? "成功" : "失败");
     }
 }

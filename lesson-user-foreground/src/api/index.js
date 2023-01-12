@@ -93,28 +93,28 @@ export const USER_SELECT_POINTS_BY_USER_ID = (userId) => baseAxios.get(
 
 /*用户：按主键单删用户记录*/
 export const USER_DELETE_BY_USER_ID_API = (params) => baseAxios.post(
-    "/user/delete-by-user-id", params);
+    "/user/delete-by-id", params);
 
 /*用户：按主键单改用户记录*/
-export const USER_UPDATE_BY_USER_ID_API = (params) => baseAxios.post(
-    "/user/update-by-user-id", params);
+export const USER_UPDATE_BY_ID_API = (params) => baseAxios.post(
+    "/user/update-by-id", params);
 
 /*用户：按主键单查用户记录*/
-export const USER_SELECT_BY_USER_ID_API = (userId) => baseAxios.get(
-    "/user/select-by-user-id",
-    {params: {'user-id': userId}});
+export const USER_SELECT_BY_ID_API = (userId) => baseAxios.get(
+    "/user/select-by-id",
+    {params: {'id': userId}});
 
 /*用户：按账号密码进行登录*/
 export const USER_LOGIN_API = (params) => baseAxios.post(
     "/user/login", params);
 
 /*用户：按主键单改用户头像*/
-export const USER_UPDATE_AVATAR_BY_USER_ID_API = (params) => baseAxios.post(
-    "/user/update-avatar-by-user-id", params);
+export const USER_UPDATE_AVATAR_BY_ID_API = (params) => baseAxios.post(
+    "/user/update-avatar-by-id", params);
 
 /*用户：按主键单改用户密码*/
-export const USER_UPDATE_PASSWORD_BY_USER_ID_API = (params) => baseAxios.post(
-    "/user/update-password-by-user-id", params);
+export const USER_UPDATE_PASSWORD_BY_ID_API = (params) => baseAxios.post(
+    "/user/update-password-by-id", params);
 
 /*用户：按手机号获取验证码*/
 export const USER_GET_VERIFICATION_CODE = (phone) => baseAxios.get(

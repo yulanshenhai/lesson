@@ -26,7 +26,7 @@ public class VideoMapperTest {
 
     @Test
     public void testSelectByVideoId() {
-        System.out.println(videoMapper.selectByVideoId(1));
+        System.out.println(videoMapper.selectById(1));
     }
 
     @Test

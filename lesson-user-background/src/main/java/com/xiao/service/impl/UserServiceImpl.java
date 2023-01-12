@@ -97,8 +97,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User selectById(Integer userId) {
-        return encryptUser(userMapper.selectByUserId(userId));
+    public User selectByUserId(Integer userId) {
+        return encryptUser(userMapper.selectById(userId));
     }
 
     @Override
@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService {
         if (NullUtil.hasNull(id, avatarFile)) {
             throw new RuntimeException("必要参数为空");
         }
-        User user = userMapper.selectByUserId(id);
+        User user = userMapper.selectById(id);
         if (null == user) {
             throw new RuntimeException("用户不存在");
         }
@@ -252,7 +252,7 @@ public class UserServiceImpl implements UserService {
      * @param userId User表主键
      */
     private void checkUserExists(Integer userId) {
-        if (null == userMapper.selectByUserId(userId)) {
+        if (null == userMapper.selectById(userId)) {
             throw new RuntimeException("用户不存在");
         }
     }
@@ -329,7 +329,7 @@ public class UserServiceImpl implements UserService {
      * @return 用户记录，若不存在则抛出异常
      */
     private User selectUser(Integer userId) {
-        User user = userMapper.selectByUserId(userId);
+        User user = userMapper.selectById(userId);
         if (null == user) {
             throw new RuntimeException("用户不存在");
         }

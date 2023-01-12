@@ -40,7 +40,7 @@ public interface VideoMapper {
             "OR 1 = 2" +
             "</where>" +
             "</script>")
-    Video selectByVideoId(Integer videoId);
+    Video selectById(Integer videoId);
 
     /**
      * 按视频主键数组批查Video记录

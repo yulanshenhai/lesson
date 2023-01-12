@@ -20,7 +20,7 @@ public class OrderMapperTest {
     @Test
     public void testInsert() {
         Order order = new Order();
-        order.setNumber("888888");
+        order.setNumber("999999");
         order.setState(0);
         order.setTotalFee(0.0D);
         order.setCreateTime(new Date(999999999L));
@@ -30,12 +30,12 @@ public class OrderMapperTest {
     }
 
     @Test
-    public void testSelectById() {
-        System.out.println("videoOrder: " + orderMapper.selectByOrderId(1));
+    public void testSelectByOrderId() {
+        System.out.println("videoOrder: " + orderMapper.selectById(1));
     }
 
     @Test
-    public void testDeleteById() {
-        System.out.println(orderMapper.deleteByOrderId(1) > 0 ? "成功" : "失败");
+    public void testDeleteByOrderId() {
+        System.out.println(orderMapper.deleteByOrderId(8) > 0 ? "成功" : "失败");
     }
 }

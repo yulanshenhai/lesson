@@ -42,8 +42,8 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testSelectById() {
-        System.out.println(userService.selectById(1));
+    public void testSelectByUserId() {
+        System.out.println(userService.selectByUserId(1));
 //        System.out.println(userService.selectById(999));
     }
 

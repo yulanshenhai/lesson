@@ -44,7 +44,7 @@ public interface UserService {
      * @param userId User表主键
      * @return 返回该用户记录，查询失败返回null
      */
-    User selectById(Integer userId);
+    User selectByUserId(Integer userId);
 
     /**
      * <h2>按手机号码查询个人信息</h2>
