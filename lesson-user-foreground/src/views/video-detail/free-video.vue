@@ -10,13 +10,14 @@
 
 import XGPlayer from 'xgplayer';
 import {nginxVideo} from "@/global_variable";
-import {onMounted, defineProps} from "vue";
+import {onMounted} from "vue";
 
 // props: 接收父组件传递过来的值
 let props = defineProps({
   firstEpisodeUrl: {
     type: String,
-    required: true
+    required: true,
+    default: 'default-video.mp4'
   }
 })
 

@@ -151,7 +151,7 @@ let firstEpisodeUrl = shallowRef('');
 let changeTab = tab => currentTabComponent.value = tab.props.name === '摘要' ? TabSummary : TabCatalog;
 
 // method: 根据视频主键查询视频详情
-let selectDetailByVideoById = async (videoId) => {
+let selectDetailByVideoId = async (videoId) => {
   try {
     let resp = await VIDEO_SELECT_DETAIL_BY_VIDEO_ID(videoId);
     if (resp['data']['code'] > 0) {
@@ -167,12 +167,12 @@ let selectDetailByVideoById = async (videoId) => {
 }
 
 // method: 将视频添加到购物车
-let addToCart = () => {
+let addToCart = async () => {
 
   // 未登录保护
   if (!vuex.state['loginFlag']) {
 
-    ElMessage('请先登录！');
+    ElMessage.warning('请先登录！');
 
     // 两秒之后跳入登录组件
     setTimeout(() => router.push("/login"), 2000);
@@ -181,26 +181,28 @@ let addToCart = () => {
   }
 
   // 添加购物车
-  CART_INSERT_OR_UPDATE_API({
-    'user-id': sessionStorage.getItem('user-id'),
-    'video-id': videoId,
-    'title': video.value['title'],
-    'price': video.value['price'],
-    'author': video.value['author'],
-    'cover-image': video.value['cover-image']
-  }).then(resp => {
+  try {
+
+    let params = {
+      'user-id': sessionStorage.getItem('user-id'),
+      'video-id': videoId,
+      'title': video.value['title'],
+      'price': video.value['price'],
+      'author': video.value['author'],
+      'cover-image': video.value['cover-image']
+    };
+
+    const resp = await CART_INSERT_OR_UPDATE_API(params);
     if (resp['data']['code'] > 0) {
-      // 登录成功，跳入Cart组件
-      router.push('/cart');
-    } else {
-      console.error(resp['data']['message']);
-      ElMessage('购物车添加失败！');
-    }
-  }).catch(err => console.log(err))
+      await router.push('/cart');
+    } else ElMessage.error(resp['data']['message']);
+  } catch (e) {
+    console.log(e)
+  }
 }
 
-// mounted: 页面加载完毕后，立刻调用 `selectDetailByVideoById()` 方法
-onMounted(() => selectDetailByVideoById(videoId));
+// mounted: 页面加载完毕后，立刻调用 `selectDetailByVideoId()` 方法
+onMounted(() => selectDetailByVideoId(videoId));
 
 </script>
 

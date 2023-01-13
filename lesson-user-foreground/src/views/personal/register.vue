@@ -73,17 +73,23 @@
 
       </el-form-item>
 
-      <!--按钮: 立刻注册-->
+      <!--按钮: 注册新的账号-->
       <!--
         @click="register": 点击按钮，触发register方法
       -->
-      <el-button class="register-btn" type="primary" @click="register">立刻注册</el-button>
+      <el-button class="register-btn" type="primary" @click="register">注册新的账号</el-button>
 
-      <!--按钮: 我要登录-->
+      <!--按钮: 账号密码登录-->
       <!--
-        @click="toLogin": 点击按钮，触发register方法
+        @click="toLogin": 点击按钮，触发toLogin方法
       -->
-      <el-button class="login-btn" type="warning" @click="toLogin">我要登录</el-button>
+      <el-button class="login-btn" type="success" @click="toLogin">账号密码登录</el-button>
+
+      <!--按钮: 手机号码登录-->
+      <!--
+        @click="toLoginByPhone": 点击按钮，触发toLoginByPhone方法
+      -->
+      <el-button class="login-btn" type="warning" @click="toLoginByPhone">手机号码登录</el-button>
 
     </el-form>
 

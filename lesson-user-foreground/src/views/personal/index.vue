@@ -55,7 +55,7 @@
       <!--用户基本信息：包括默认头像和未登录提示-->
       <article class="header-head">
 
-        <!--用户讲哦人头像-->
+        <!--用户的头像-->
         <el-image :src="require('@/assets/default-avatar.jpg')" class="avatar-image"/>
 
         <!--未登录提示-->
@@ -66,11 +66,17 @@
       <!--功能按钮-->
       <article class="header-body">
 
-        <!--按钮-登录-->
+        <!--按钮-按账号密码登录-->
         <!--
           @click="router.push('/login')": 点击时跳入Login组件
         -->
-        <el-button @click="router.push('/login')" type="danger" class="login-btn">立刻登录</el-button>
+        <el-button @click="router.push('/login')" type="danger" class="opera-btn">账号密码登录</el-button>
+
+        <!--按钮-按手机号码登录-->
+        <!--
+          @click="router.push('/login-by-phone')": 点击时跳入LoginByPhone组件
+        -->
+        <el-button @click="router.push('/login-by-phone')" type="danger" class="opera-btn">手机号码登录</el-button>
 
       </article>
 
@@ -185,7 +191,7 @@ onMounted(() => {
 
     height: 200px; // 高度
     padding: 50px 0; // 上下内边距 左右内边距
-    background-color: yellow; // 背景色
+    background-color: deepskyblue; // 背景色
     text-align: center; // 内容居中
 
     /*头像图片*/

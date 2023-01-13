@@ -16,7 +16,7 @@ public class FileUtil {
     private static final String ENDPOINT = "oss-cn-hangzhou.aliyuncs.com";
     private static final String ACCESS_KEY_ID = "LTAI5tERWXtq3D53ABCarV1k";
     private static final String ACCESS_KEY_SECRET = "lB2DHF9SjUzVT2FRaSgLCjc3VsddYC";
-    private static final String BUCKET_NAME = "v2-lesson-bucket";
+    private static final String BUCKET_NAME = "xiao-lesson-bucket";
     private static final String AVATAR_OSS_DIR = "user-avatar/";
     private static final String AVATAR_LOCAL_DIR = "D:\\idea\\upload\\user-avatar";
 

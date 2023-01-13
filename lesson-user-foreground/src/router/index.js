@@ -5,6 +5,7 @@ import Register from '@/views/personal/register'
 import Login from '@/views/personal/login'
 import Personal from '@/views/personal'
 import Cart from '@/views/cart'
+import Player from '@/views/player'
 
 // 所有组件的路由都在这个数组中配置
 const routes = [
@@ -13,6 +14,7 @@ const routes = [
   {path: '/register', name: 'Register', component: Register},
   {path: '/login', name: 'Login', component: Login},
   {path: '/personal', name: 'Personal', component: Personal},
+  {path: '/player', name: 'Player', component: Player},
   {path: '/cart', name: 'Cart', component: Cart},
   {path: '/banner', name: 'Banner', component: () => import('@/views/welcome/banner')},
   {path: '/video-list', name: 'VideoList', component: () => import('@/views/welcome/video-list')},
@@ -23,6 +25,7 @@ const routes = [
   {path: '/tab-catalog', name: 'TabCatalog', component: () => import('@/views/video-detail/tab-catalog')},
   {path: '/order-list', name: 'OrderList', component: () => import('@/views/personal/order-list')},
   {path: '/user-update', name: 'UserUpdate', component: () => import('@/views/personal/user-update')},
+  {path: '/login-by-phone', name: 'LoginByPhone', component: () => import('@/views/login-by-phone')},
   {
     path: '/user-update-password',
     name: 'UserUpdatePassword',
