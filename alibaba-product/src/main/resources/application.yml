@@ -1,0 +1,26 @@
+# 基本配置
+server:
+  port: 8020
+spring:
+  application:
+    name: alibaba-product
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/alibaba?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: alibaba
+    password: alibaba
+    type: com.alibaba.druid.pool.DruidDataSource
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+# MP配置
+mybatis-plus:
+  type-aliases-package: com.alibaba.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

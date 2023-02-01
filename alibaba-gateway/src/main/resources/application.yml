@@ -1,0 +1,37 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: alibaba-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user-route
+          uri: lb://alibaba-user
+          order: 1
+          predicates:
+            - Path=/user-app/**
+            - Age=16,80
+          filters:
+            - StripPrefix=1
+        - id: order-route
+          uri: lb://alibaba-order
+          order: 1
+          predicates:
+            - Path=/order-app/**
+          filters:
+            - StripPrefix=1
+        - id: product-route
+          uri: lb://alibaba-product
+          order: 1
+          predicates:
+            - Path=/product-app/**
+          filters:
+            - StripPrefix=1
