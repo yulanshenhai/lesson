@@ -9,6 +9,7 @@ import com.xiao.mapper.VideoMapper;
 import com.xiao.mapper.VideoOrderMapper;
 import com.xiao.param.OrderDeleteParam;
 import com.xiao.param.OrderInsertParam;
+import com.xiao.server.PointsServer;
 import com.xiao.server.SmsServer;
 import com.xiao.service.OrderService;
 import com.xiao.util.BuildUtil;
@@ -48,6 +49,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private SmsServer smsServer;
+
+    @Autowired
+    private PointsServer pointsServer;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -95,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
         // 调用Mapper接口添加VideoOrder记录
         this.insertVideoOrder(userId, videoIds, order);
 
-        //this.sendSmsAfterBuying(user.getPhone());
+        this.incrByPoints(userId, totalFee);
         return 1;
     }
 
@@ -264,6 +268,26 @@ public class OrderServiceImpl implements OrderService {
     private void checkOrderExists(Integer orderId) {
         if (null == orderMapper.selectByOrderId(orderId)) {
             throw new RuntimeException("订单不存在");
+        }
+    }
+
+    /**
+     * 下单成功后为用户异步添加积分
+     *
+     * @param userId   User主键
+     * @param totalFee 订单总金额
+     */
+    private void incrByPoints(Integer userId, double totalFee) {
+        Future<String> future = pointsServer.incrByPoints(userId, totalFee);
+        while (true) {
+            try {
+                if (future.isDone()) {
+                    log.info(future.get());
+                    break;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("异步添加积分异常");
+            }
         }
     }
 }

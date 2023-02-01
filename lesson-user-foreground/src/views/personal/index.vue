@@ -35,15 +35,14 @@
       <!--功能按钮-->
       <article class="header-body">
 
-        <el-button type="primary" class="opera-btn" @click="">查询积分</el-button>
+        <el-button type="primary" class="opera-btn" @click="selectPointsByUserId">查询积分</el-button>
         <el-button type="primary" class="opera-btn" @click="router.push('/order-list')">查询订单</el-button>
         <el-button type="warning" class="opera-btn" @click="router.push('/user-update')">修改信息</el-button>
         <el-button type="warning" class="opera-btn" @click="router.push('/user-update-avatar')">修改头像</el-button>
         <el-button type="warning" class="opera-btn" @click="router.push('/user-update-password')">重置密码</el-button>
         <el-button type="warning" class="opera-btn" @click="ElMessage.info('暂未开通服务')">重置手机</el-button>
-        <el-button type="danger" class="opera-btn" @click="logout">注销账户</el-button>
+        <el-button type="danger" class="opera-btn" @click="deleteByUserId">注销账户</el-button>
         <el-button type="danger" class="opera-btn" @click="logout">退出登录</el-button>
-
       </article>
 
 
@@ -96,7 +95,7 @@
 <script setup>
 import CommonFooter from "@/components/common-footer";
 import CommonHeader from "@/components/common-header";
-import {USER_DELETE_BY_USER_ID_API, USER_SELECT_BY_USER_ID_API} from "@/api";
+import {USER_DELETE_BY_USER_ID_API, USER_SELECT_BY_USER_ID_API, USER_SELECT_POINTS_BY_USER_ID_API} from "@/api";
 import router from "@/router";
 import {useStore} from 'vuex';
 import {computed, onMounted, ref} from "vue";
@@ -153,7 +152,7 @@ let logout = async () => {
 }
 
 // method: 注销个人账号
-let deleteByUserId = () => {
+let deleteByUserId = async () => {
 
   // 危险操作保护
   if (!confirm("即将注销个人账号，确定吗？")) {
@@ -172,6 +171,16 @@ let deleteByUserId = () => {
       ElMessage("账号注销失败");
     }
   }).catch(e => console.error(e));
+}
+
+// method: 查询个人积分
+let selectPointsByUserId = async () => {
+  const resp = await USER_SELECT_POINTS_BY_USER_ID_API(userId);
+  if (resp['data']['code'] > 0) {
+    ElMessage.info('您当前的积分是' + resp['data']['data']);
+  } else {
+    ElMessage.info('您当前的积分是0');
+  }
 }
 
 // mounted: 页面加载完毕后，立刻调用 `selectByUserId()` 方法

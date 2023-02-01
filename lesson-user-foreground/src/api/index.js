@@ -81,11 +81,6 @@ export const USER_REGISTER_API = (params) => baseAxios.post(
 export const USER_LOGIN_BY_PHONE_API = (params) => baseAxios.post(
     "/user/login-by-phone", params);
 
-/*用户：按主键查询用户积分*/
-export const USER_SELECT_POINTS_BY_USER_ID = (userId) => baseAxios.get(
-    "/user/select-points-by-user-id",
-    {params: {'user-id': userId}});
-
 /*用户：按主键单删用户记录*/
 export const USER_DELETE_BY_USER_ID_API = (params) => baseAxios.post(
     "/user/delete-by-user-id", params);
@@ -115,6 +110,11 @@ export const USER_UPDATE_PASSWORD_BY_USER_ID_API = (params) => baseAxios.post(
 export const USER_GET_VERIFICATION_CODE = (phone) => baseAxios.get(
     "/user/get-verification-code",
     {params: {phone}});
+
+// 用户GET: 按 `用户ID` 查询 `积分`
+export const USER_SELECT_POINTS_BY_USER_ID_API = (userId) => baseAxios.get(
+    "/user/select-points-by-user-id",
+    {params: {'user-id': userId}});
 
 /*订单：单增订单记录*/
 export const ORDER_INSERT_API = (params) => baseAxios.post(

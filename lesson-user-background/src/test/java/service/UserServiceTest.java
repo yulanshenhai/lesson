@@ -37,8 +37,8 @@ public class UserServiceTest {
 
     @Test
     public void testSelectById() {
-        System.out.println(userService.selectById(1));
-        System.out.println(userService.selectById(999));
+        System.out.println(userService.selectById(10));
+        System.out.println(userService.selectById(19));
     }
 
     @Test
@@ -89,6 +89,12 @@ public class UserServiceTest {
         UserDeleteParam userDeleteParam = new UserDeleteParam();
         userDeleteParam.setUserId(1);
         System.out.println(userService.deleteByUserId(userDeleteParam) > 0 ? "成功" : "失败");
+    }
+
+    @Test
+    public void testSelectPointsByUserId(){
+        String points = userService.selectPointsByUserId(10);
+        System.out.println(points);
     }
 
 }
